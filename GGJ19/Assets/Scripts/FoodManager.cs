@@ -11,6 +11,10 @@ public class FoodManager : MonoBehaviour {
 	public List<GameObject> FoodObjects; 
 	public delegate void PickUpFoodEvent(GameObject food);
 	public static event PickUpFoodEvent OnPickUpFood;
+
+	public GameObject[] FoodSpawnAreas;
+	public Sprite[] FoodSprites;
+
 	void Start () {
 		CreateStartingFood();		
 	}
@@ -18,16 +22,17 @@ public class FoodManager : MonoBehaviour {
 	}
 	void CreateStartingFood()
 	{
-		SpriteRenderer sr = Home.GetComponent<SpriteRenderer>();
-
-		float maxXpos = sr.bounds.max.x;
-		float maxYpos = sr.bounds.max.y;
-
-		float minXpos = sr.bounds.min.x;
-		float minYpos = sr.bounds.min.y;
+		FoodSpawnAreas = GameObject.FindGameObjectsWithTag("FoodSpawnArea");
+		//SpriteRenderer sr = Home.GetComponent<SpriteRenderer>();
 
 		for (int i = 0; i < StartQuantity; i++)
 		{
+			int number = Random.Range(0,FoodSpawnAreas.Length);
+			SpriteRenderer sr = FoodSpawnAreas[number].GetComponent<SpriteRenderer>();
+			float maxXpos = sr.bounds.max.x;
+			float maxYpos = sr.bounds.max.y;
+			float minXpos = sr.bounds.min.x;
+			float minYpos = sr.bounds.min.y;
 			float randomXpos = Random.Range(minXpos,maxXpos);
 			float randomYpos = Random.Range(minYpos,maxYpos);
 			Vector2 pos = new Vector2(randomXpos,randomYpos);
@@ -36,10 +41,24 @@ public class FoodManager : MonoBehaviour {
 			newGameObject.name = ("Food " + i);
 			FoodObjects.Add(newGameObject);
 		}
+		foreach (GameObject Areas in FoodSpawnAreas)
+		{
+			Areas.GetComponent<SpriteRenderer>().enabled = false;
+		}
 	}
+
+	public void RecreateStartingFood()
+	{
+		foreach (var food in FoodObjects)
+		{
+			Destroy(food);
+		}
+		FoodObjects.Clear();
+		CreateStartingFood();
+	}
+
 	public void LogPickedUp(GameObject f)
 	{
-		Debug.Log("Calling Event for picked up fly!");
 		if(OnPickUpFood != null)
 			OnPickUpFood(f);
 	}
@@ -67,7 +86,9 @@ public class FoodManagerEditor : Editor
         FoodManager myScript = (FoodManager)target;
         if(GUILayout.Button("Remove and Recreate Food Objects"))
         {
-            Debug.Log("Presseggd Button");
+			GameObject fm = GameObject.Find("FoodManager");
+			FoodManager fMComponent = fm.GetComponent<FoodManager>();
+            fMComponent.RecreateStartingFood();
         }
     }
 }

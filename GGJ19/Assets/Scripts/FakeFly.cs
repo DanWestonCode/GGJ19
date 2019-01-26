@@ -11,8 +11,6 @@ public class FakeFly : MonoBehaviour {
 	void Start () 
 	{
 		FoodManager.OnPickUpFood += SomeFoodPickedUp;
-		
-		Debug.Log("Added to event?");
 	}
 	
 	// Update is called once per frame
