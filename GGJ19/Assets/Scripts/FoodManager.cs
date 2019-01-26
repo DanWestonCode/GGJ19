@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEditor;
+  #if UNITY_EDITOR
+    using UnityEditor;
+  #endif
 
 public class FoodManager : MonoBehaviour {
 	public int StartQuantity;
@@ -84,7 +86,7 @@ public class FoodManager : MonoBehaviour {
 
 }
 
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(FoodManager))]
 public class FoodManagerEditor : Editor
 {
@@ -101,3 +103,4 @@ public class FoodManagerEditor : Editor
         }
     }
 }
+#endif
