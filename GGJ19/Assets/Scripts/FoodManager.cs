@@ -67,7 +67,7 @@ public class FoodManagerEditor : Editor
         FoodManager myScript = (FoodManager)target;
         if(GUILayout.Button("Remove and Recreate Food Objects"))
         {
-            Debug.Log("Pressed Button");
+            Debug.Log("Presseggd Button");
         }
     }
 }
