@@ -118,6 +118,7 @@ public class Spider : MonoBehaviour {
     }
 
     private void Shoot() {
+        // right clikc
         if (Input.GetMouseButton(0)) {
 
             // TODO: Check for flies/enemies
@@ -131,7 +132,7 @@ public class Spider : MonoBehaviour {
             }
             else {
                 Debug.DrawRay(transform.position, aimDirection * 10, Color.yellow);
-                //currentWeb = null;
+                currentWeb = null;
             }
 
         }
