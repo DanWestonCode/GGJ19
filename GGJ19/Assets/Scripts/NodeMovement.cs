@@ -12,6 +12,9 @@ public class NodeMovement : MonoBehaviour {
     [SerializeField]
     private MoveState state = MoveState.none;
 
+    [SerializeField]
+    private GameObject flyObject;
+
     private MoveState prevState = MoveState.none;
 
     //all of the nodes
@@ -33,7 +36,13 @@ public class NodeMovement : MonoBehaviour {
     private List<float> pathCosts;
     private List<Node> currentPath;
 
-	void Start () {
+    private Vector3 direction;
+    private Vector3 postDirection;
+
+    private List<Dictionary<Vector3, bool>> wobbleVectors;
+
+
+    void Start () {
 		if (nodesParent != null)
         {
             //grab the list of nodes from the nodesParent for later use
@@ -57,7 +66,14 @@ public class NodeMovement : MonoBehaviour {
             foodNodes = newFoodList;
             spawnNodes = newSpawnList;
         }
-	}
+
+        startShake();
+    }
+
+    void startShake()
+    {
+
+    }
 
     public void setState(MoveState newState)
     {
@@ -161,6 +177,7 @@ public class NodeMovement : MonoBehaviour {
             }
         }
 
+        
         //Debug.Log(currentPath);
     }
 
@@ -222,15 +239,34 @@ public class NodeMovement : MonoBehaviour {
 
             case MoveState.toFood:
                 //make sure the food has not been picked up
+                if (currentTarget == null)
+                {
+                    this.targetClosest(Node.NodeType.food);
+                }
 
-                //move towards the target food
+                if (currentPath == null)
+                {
+                    pathToTarget();
+                }
+
+                //move towards the next node on the path
+                moveAlongPath(MoveState.toFood);
 
                 break;
 
             case MoveState.toSpawn:
                 //move towards spawn node
-                
+                if (currentTarget == null)
+                {
+                    this.targetClosest(Node.NodeType.spawn);
+                }
 
+                if (currentPath == null)
+                {
+                    pathToTarget();
+                }
+
+                moveAlongPath(MoveState.toSpawn);
                 break;
 
             default:
@@ -239,4 +275,86 @@ public class NodeMovement : MonoBehaviour {
 
         prevState = state;
 	}
+
+    void moveAlongPath(MoveState stateRef)
+    {
+        direction = Vector3.negativeInfinity;
+        if (currentNode != null && currentPath != null)
+        {
+            if (currentNode == currentPath[0])
+            {
+                //take the start off of the list
+                currentPath.RemoveAt(0);
+            }
+
+            //move towards the top node of the current path
+            direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
+            Debug.Log(direction);
+
+            gameObject.transform.position += (direction * Time.deltaTime * 10);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        switch (state)
+        {
+            case MoveState.hover:
+                //don't move at all, just bob up and down/left and right
+                break;
+
+            case MoveState.toFood:
+                //make sure the food has not been picked up
+
+                //move towards the next node on the path
+                moveAlongPathPost(MoveState.toFood);
+
+                break;
+
+            case MoveState.toSpawn:
+                moveAlongPathPost(MoveState.toSpawn);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    void moveAlongPathPost(MoveState stateRef)
+    {
+        if (direction != Vector3.negativeInfinity)
+        {
+            postDirection = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
+            Debug.Log(postDirection);
+            if (postDirection != direction || direction == Vector3.zero)
+            {
+                Debug.Log("different");
+
+                //we have passed the point
+                gameObject.transform.position = currentPath[0].gameObject.transform.position;
+
+                currentNode = currentPath[0];
+
+                //if we were moving towards the targetNode
+                if (currentPath[0] == currentTarget)
+                {
+                    //we have reached the target, do the thing we need to do
+                    if (stateRef == MoveState.toFood)
+                    {
+                        setState(MoveState.toSpawn);
+
+                        //reached food, pick it up
+                        //TODO: hook into food picking up and change state
+                    }
+                    else if (stateRef == MoveState.toSpawn)
+                    {
+                        setState(MoveState.toFood);
+
+                        //reached spawn (with food)
+                        //TODO: hook into flys escaping
+                    }
+                }
+            }
+        }
+    }
 }
