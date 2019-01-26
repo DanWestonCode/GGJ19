@@ -34,17 +34,26 @@ public class FoodManager : MonoBehaviour {
 			float minXpos = sr.bounds.min.x;
 			float minYpos = sr.bounds.min.y;
 			float randomXpos = Random.Range(minXpos,maxXpos);
-			float randomYpos = Random.Range(minYpos,maxYpos);
+			float randomYpos = maxYpos;	
 			Vector2 pos = new Vector2(randomXpos,randomYpos);
 			// Create Food Object
 			GameObject newGameObject = Instantiate(FoodPrefab,pos,Quaternion.identity);
+			newGameObject.GetComponent<SpriteRenderer>().sprite = SelectFoodSprite();
 			newGameObject.name = ("Food " + i);
+			//Debug.Log("Food Size: " + newGameObject.GetComponent<SpriteRenderer>().bounds.size.x);
 			FoodObjects.Add(newGameObject);
 		}
 		foreach (GameObject Areas in FoodSpawnAreas)
 		{
-			Areas.GetComponent<SpriteRenderer>().enabled = false;
+			//Areas.GetComponent<SpriteRenderer>().enabled = false;
 		}
+	}
+
+
+	Sprite SelectFoodSprite()
+	{
+		int number = Random.Range(0,FoodSprites.Length);
+		return FoodSprites[number];
 	}
 
 	public void RecreateStartingFood()
