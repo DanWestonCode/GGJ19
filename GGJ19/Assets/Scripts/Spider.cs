@@ -93,7 +93,7 @@ public class Spider : MonoBehaviour {
         if (Input.GetKey(KeyCode.D) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
             dir = Vector3.right;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= this.currentPlatform.end.position.x) {
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= (this.currentPlatform.end.position.x) + (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x*.5f)) {
                 dir = Vector2.zero;
             }
         }
@@ -101,7 +101,7 @@ public class Spider : MonoBehaviour {
         if (Input.GetKey(KeyCode.A) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) { 
             dir = Vector3.left;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x) {
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                 dir = Vector2.zero;
             }
         }
@@ -109,7 +109,7 @@ public class Spider : MonoBehaviour {
         if (Input.GetKey(KeyCode.W) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
             dir = Vector3.up;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y) {
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                 dir = Vector2.zero;
             }
          }
@@ -117,34 +117,28 @@ public class Spider : MonoBehaviour {
         if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
             dir = Vector3.down;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y) {
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                 dir = Vector2.zero;
             }
-        }
-
-        // check for attached web first
-        if (Input.GetMouseButton(1) && currentWeb != null && currentZip == null) {
-            Vector2 target = currentWeb.end;
-            currentOrientation = currentWeb.target.Direction();
-            //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
-            currentZip = StartCoroutine(IZip(target));
         }
 
         this.transform.position += (Vector3)dir * speed * Time.deltaTime;
     }
 
     IEnumerator IZip(Vector2 target) {
-        landed = false;
-        while (!landed) {
+        bool loop = true;
+
+        while (loop) {
             transform.position = Vector3.MoveTowards(transform.position, target, zipSpeed * Time.deltaTime);
 
             if ((Vector2.Distance(this.transform.position, target) > 0.25f)) {
                 yield return null;
             } else {
                 Debug.Log("Setting vars to false");
-                currentPlatform = currentWeb.target;
-                
-                landed = true;
+
+                currentPlatform = currentWeb.target;             
+
+                loop = false;
                 currentWeb = null;
                 currentZip = null;
 
@@ -190,22 +184,26 @@ public class Spider : MonoBehaviour {
                 Debug.DrawRay(transform.position, aimDirection * hit.distance, Color.yellow);
 
                 // draw sling to platform
-                web.SetPosition(1, aimDirection * hit.distance);
+                web.SetPosition(1, hit.point);
 
                 // grab the platform we're aiming at
                 WebPlatform nextPlatform = hit.transform.gameObject.GetComponent<WebPlatform>();
 
                 // can't zip to same platform... this causes issues...
-                if (nextPlatform != null && nextPlatform != currentPlatform) {
+                if (currentWeb == null && nextPlatform != null && nextPlatform != currentPlatform) {
+
                     currentWeb = new Web(this.transform.position, hit.point, hit.transform.gameObject.GetComponent<WebPlatform>());
+
+                    Vector2 target = currentWeb.end;
+                    currentOrientation = currentWeb.target.Direction();
+                    //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
+                    currentZip = StartCoroutine(IZip(target));
                 }
             }
             else {
                 Debug.Log("No Hit");
                 Debug.DrawRay(transform.position, aimDirection * 3, Color.yellow);
-
-                web.SetPosition(1, aimDirection * 3);
-                currentWeb = null;
+                web.SetPosition(1, this.transform.position + (Vector3)(aimDirection * 3));
             }
 
         } else {
@@ -213,15 +211,5 @@ public class Spider : MonoBehaviour {
             web.positionCount = 0;
         }
     }
-    
-    //IEnumerator ISling(Vector2 end) {
-    //    float length = Vector2.Distance (end, web.GetPosition(0));
-    //    float iterations = length / 5;
-       
-
-    //    for (float i = 1; i < 5; i+= iterations) {
-    //        web.SetPosition((int)i, aimDirection*i);
-    //        yield return null;        
-    //    }
-    //}
+   
 }
