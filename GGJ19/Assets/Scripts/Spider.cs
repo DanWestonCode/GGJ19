@@ -60,6 +60,11 @@ public class Spider : MonoBehaviour {
     /// </summary>
     public Coroutine currentZip;
 
+    /// <summary>
+    /// Coroutine for current line renderer sling
+    /// </summary>
+    public Coroutine currentSling;
+
     private WebPlatform currentPlatform;
 
     /// <summary>
@@ -67,8 +72,11 @@ public class Spider : MonoBehaviour {
     /// </summary>
     private Vector2 currentOrientation = Vector2.zero;
 
+    public LineRenderer web;
+
     private void Awake() {
         Debug.Assert(reticle);
+        Debug.Assert(web);
     }
 
     void Update () {
@@ -106,6 +114,7 @@ public class Spider : MonoBehaviour {
             //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
             currentZip = StartCoroutine(IZip(target));
         }
+
         this.transform.position += (Vector3)dir * speed * Time.deltaTime;
     }
 
@@ -149,14 +158,24 @@ public class Spider : MonoBehaviour {
 
     private void Shoot() {
         // left click
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0)) {         
 
             // TODO: Check for flies/enemies
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDirection, Mathf.Infinity, LayerMask.GetMask("Floor"));           
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDirection, 3, LayerMask.GetMask("Floor"));
+
+            web.startColor = Color.red;
+            web.startColor = Color.red;
+
+            web.SetWidth(0.1f, 0.1f);
+            web.positionCount = 2;
+            web.SetPosition(0, this.transform.position);
 
             if (hit.collider) {
                 Debug.Log(string.Format("Hit {0}", hit.transform.gameObject.name));
                 Debug.DrawRay(transform.position, aimDirection * hit.distance, Color.yellow);
+
+                // draw sling to platform
+                web.SetPosition(1, aimDirection * hit.distance);
 
                 // grab the platform we're aiming at
                 WebPlatform nextPlatform = hit.transform.gameObject.GetComponent<WebPlatform>();
@@ -168,11 +187,26 @@ public class Spider : MonoBehaviour {
             }
             else {
                 Debug.Log("No Hit");
-                Debug.DrawRay(transform.position, aimDirection * 10, Color.yellow);
+                Debug.DrawRay(transform.position, aimDirection * 3, Color.yellow);
+
+                web.SetPosition(1, aimDirection * 3);
                 currentWeb = null;
             }
 
+        } else {
+            // stop slinging that web        
+            web.positionCount = 0;
         }
     }
-      
+    
+    //IEnumerator ISling(Vector2 end) {
+    //    float length = Vector2.Distance (end, web.GetPosition(0));
+    //    float iterations = length / 5;
+       
+
+    //    for (float i = 1; i < 5; i+= iterations) {
+    //        web.SetPosition((int)i, aimDirection*i);
+    //        yield return null;        
+    //    }
+    //}
 }

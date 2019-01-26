@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WebPlatform : MonoBehaviour {
 
-    public Transform a, b;
+    public Transform start, end;
 
     public Vector3 Direction () {
-        return (a.position - b.position).normalized;
+        return (start.position - end.position).normalized;
     }
 }
