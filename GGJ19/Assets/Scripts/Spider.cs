@@ -90,21 +90,36 @@ public class Spider : MonoBehaviour {
 
         // Only reconsider a zip when we have a web, the key is pressed and there is no current zipping!
     
-
         if (Input.GetKey(KeyCode.D) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
             dir = Vector3.right;
+
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= this.currentPlatform.end.position.x) {
+                dir = Vector2.zero;
+            }
         }
 
         if (Input.GetKey(KeyCode.A) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) { 
             dir = Vector3.left;
+
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x) {
+                dir = Vector2.zero;
+            }
         }
                     
         if (Input.GetKey(KeyCode.W) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
             dir = Vector3.up;
-        }
+
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y) {
+                dir = Vector2.zero;
+            }
+         }
 
         if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
             dir = Vector3.down;
+
+            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y) {
+                dir = Vector2.zero;
+            }
         }
 
         // check for attached web first
