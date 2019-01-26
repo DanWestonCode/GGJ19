@@ -158,8 +158,8 @@ public class Spider : MonoBehaviour {
         }
 
         aimDirection = Quaternion.Euler(0, 0, aimAngle * Mathf.Rad2Deg) * Vector2.right;
-        float x = transform.position.x + 1f * Mathf.Cos(aimAngle);
-        float y = transform.position.y + 1f * Mathf.Sin(aimAngle);
+        float x = transform.position.x + .5f * Mathf.Cos(aimAngle);
+        float y = transform.position.y + .5f * Mathf.Sin(aimAngle);
         
         var crossHairPosition = new Vector3(x, y, 0);
         reticle.transform.position = crossHairPosition; 
@@ -167,9 +167,9 @@ public class Spider : MonoBehaviour {
 
     private void Shoot() {
         // left click
-        if (Input.GetMouseButton(0)) {         
+        if (Input.GetMouseButtonDown(0)) {
 
-            // TODO: Check for flies/enemies
+            // TODO: Check for flies/enemies    
             RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDirection, 3, LayerMask.GetMask("Floor"));
 
             web.startColor = Color.red;
