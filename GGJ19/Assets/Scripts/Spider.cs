@@ -60,11 +60,6 @@ public class Spider : MonoBehaviour {
     /// </summary>
     public Coroutine currentZip;
 
-    /// <summary>
-    /// Coroutine for current line renderer sling
-    /// </summary>
-    public Coroutine currentSling;
-
     private WebPlatform currentPlatform;
 
     /// <summary>
@@ -89,36 +84,39 @@ public class Spider : MonoBehaviour {
         Vector2 dir = Vector2.zero;
 
         // Only reconsider a zip when we have a web, the key is pressed and there is no current zipping!
-    
-        if (Input.GetKey(KeyCode.D) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
-            dir = Vector3.right;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= (this.currentPlatform.end.position.x) + (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x*.5f)) {
-                dir = Vector2.zero;
+        // stop movement whilst zipping
+        if (currentZip == null) {
+            if (Input.GetKey(KeyCode.D) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
+                dir = Vector3.right;
+
+                if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= (this.currentPlatform.end.position.x) + (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
+                    dir = Vector2.zero;
+                }
             }
-        }
 
-        if (Input.GetKey(KeyCode.A) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) { 
-            dir = Vector3.left;
+            if (Input.GetKey(KeyCode.A) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
+                dir = Vector3.left;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
-                dir = Vector2.zero;
+                if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
+                    dir = Vector2.zero;
+                }
             }
-        }
-                    
-        if (Input.GetKey(KeyCode.W) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
-            dir = Vector3.up;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
-                dir = Vector2.zero;
+            if (Input.GetKey(KeyCode.W) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
+                dir = Vector3.up;
+
+                if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
+                    dir = Vector2.zero;
+                }
             }
-         }
 
-        if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
-            dir = Vector3.down;
+            if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
+                dir = Vector3.down;
 
-            if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
-                dir = Vector2.zero;
+                if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
+                    dir = Vector2.zero;
+                }
             }
         }
 
@@ -130,13 +128,16 @@ public class Spider : MonoBehaviour {
 
         while (loop) {
             transform.position = Vector3.MoveTowards(transform.position, target, zipSpeed * Time.deltaTime);
+            web.SetPosition(0, this.transform.position);
+            web.SetPosition(1, target);
 
             if ((Vector2.Distance(this.transform.position, target) > 0.25f)) {
                 yield return null;
             } else {
                 Debug.Log("Setting vars to false");
 
-                currentPlatform = currentWeb.target;             
+                currentPlatform = currentWeb.target;
+                web.positionCount = 0;
 
                 loop = false;
                 currentWeb = null;
@@ -165,12 +166,14 @@ public class Spider : MonoBehaviour {
         reticle.transform.position = crossHairPosition; 
     }
 
+    float slingDist = 25.0f;
+
     private void Shoot() {
         // left click
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0) && currentZip == null) {
 
             // TODO: Check for flies/enemies    
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDirection, 3, LayerMask.GetMask("Floor"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, aimDirection, slingDist, LayerMask.GetMask("Floor"));
 
             web.startColor = Color.red;
             web.startColor = Color.red;
@@ -191,9 +194,7 @@ public class Spider : MonoBehaviour {
 
                 // can't zip to same platform... this causes issues...
                 if (currentWeb == null && nextPlatform != null && nextPlatform != currentPlatform) {
-
                     currentWeb = new Web(this.transform.position, hit.point, hit.transform.gameObject.GetComponent<WebPlatform>());
-
                     Vector2 target = currentWeb.end;
                     currentOrientation = currentWeb.target.Direction();
                     //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
@@ -202,14 +203,24 @@ public class Spider : MonoBehaviour {
             }
             else {
                 Debug.Log("No Hit");
-                Debug.DrawRay(transform.position, aimDirection * 3, Color.yellow);
+                Debug.DrawRay(transform.position, aimDirection * slingDist, Color.yellow);
                 web.SetPosition(1, this.transform.position + (Vector3)(aimDirection * 3));
             }
 
         } else {
-            // stop slinging that web        
-            web.positionCount = 0;
+            if (currentZip == null) {
+                // stop slinging that web        
+                web.positionCount = 0;
+            }
         }
+    }
+
+    IEnumerator ISling () {
+        if (currentWeb != null) {
+            // draw sling to platform
+        }
+        
+        yield return null;
     }
    
 }
