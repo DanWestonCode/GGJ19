@@ -259,7 +259,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ca507f23f2f935545ad5449ab04075a4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1605a95b80465143ac0eb782115106a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -323,7 +323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 366429355}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.046, y: -0.022, z: 0}
+  m_LocalPosition: {x: -2.41, y: 1.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1831050238}
@@ -332,7 +332,7 @@ Transform:
   - {fileID: 1738621325}
   - {fileID: 1972294194}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &366429359
 Rigidbody2D:
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 784266453}
   - component: {fileID: 784266454}
   m_Layer: 0
-  m_Name: web (3)
+  m_Name: web
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,7 +778,7 @@ GameObject:
   - component: {fileID: 1308016731}
   - component: {fileID: 1308016732}
   m_Layer: 0
-  m_Name: web (1)
+  m_Name: web
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -934,7 +934,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1512399196}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -1.04, y: -4.02, z: 0}
+  m_LocalPosition: {x: -3.404, y: -2.448, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 239013804}
@@ -943,7 +943,7 @@ Transform:
   - {fileID: 784266453}
   - {fileID: 1882434547}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &1738621324
 GameObject:
@@ -956,7 +956,7 @@ GameObject:
   - component: {fileID: 1738621325}
   - component: {fileID: 1738621326}
   m_Layer: 0
-  m_Name: web (3)
+  m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1193,7 +1193,7 @@ GameObject:
   - component: {fileID: 1972294194}
   - component: {fileID: 1972294195}
   m_Layer: 0
-  m_Name: End
+  m_Name: Corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1276,12 +1276,12 @@ PrefabInstance:
     - target: {fileID: 55225078740558170, guid: fb288c38d01b43547960e7c778667563,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.521
       objectReference: {fileID: 0}
     - target: {fileID: 55225078740558170, guid: fb288c38d01b43547960e7c778667563,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.1
+      value: -0.042
       objectReference: {fileID: 0}
     - target: {fileID: 55225078740558170, guid: fb288c38d01b43547960e7c778667563,
         type: 3}
@@ -1311,7 +1311,7 @@ PrefabInstance:
     - target: {fileID: 55225078740558170, guid: fb288c38d01b43547960e7c778667563,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 55225078740558170, guid: fb288c38d01b43547960e7c778667563,
         type: 3}
