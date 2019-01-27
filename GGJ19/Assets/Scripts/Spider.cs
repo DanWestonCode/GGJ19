@@ -329,6 +329,7 @@ public class Spider : MonoBehaviour {
                         hitTrigger = true;
 
                         Fly nextFly = hit[i].transform.GetComponent<Fly>();
+
                         /// i.e spider is not carrying anyone
                         if (victim == null) {                  
 
@@ -336,6 +337,8 @@ public class Spider : MonoBehaviour {
                             victim.Caught();
 
                             currentReel = StartCoroutine(IReelInVictim());
+
+                            nextFly.GetComponent<Animator>().SetTrigger("Trapped");
                         } else {
                             nextFly.Kill();
                         }
