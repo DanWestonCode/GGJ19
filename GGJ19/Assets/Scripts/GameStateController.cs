@@ -15,13 +15,14 @@ public class GameStateController : MonoBehaviour
     {
         EndState = EndGameStates.Pending;
         GameState = GameStates.Pending;
+
+        SetGameStateToRunning();
     }
 
     void Update()
     {
         if(Input.GetKeyDown("space") && GameState == GameStates.Pending)
         {
-            SetGameStateToRunning();
         }
     }
 
@@ -65,10 +66,29 @@ public class GameStateController : MonoBehaviour
     }
     public void SetEndStateToGood()
     {
+        StopSpawntimers();
+
+        StopFlies();
+
         EndState = EndGameStates.Good;
     }
     public void SetEndStateToBad()
     {
+        StopSpawntimers();
+
+        StopFlies();
+
         EndState = EndGameStates.Bad;
+    }
+
+    private void StopFlies()
+    {
+        //go through the flies on the fly manager and stop their movement
+        GameObject[] allFlies = FlyManager.instance.AllFlys;
+
+        for (int i = 0; i < allFlies.Length; i++)
+        {
+            allFlies[i].GetComponent<NodeMovement>().setState(NodeMovement.MoveState.none);
+        }
     }
 }

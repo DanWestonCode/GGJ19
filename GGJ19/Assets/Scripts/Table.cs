@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Table : MonoBehaviour
-{
+public class Table : MonoBehaviour {
+    private void OnTriggerEnter2D (Collider2D col) {
 
-    // Start is called before the first frame update
-    void Start()
-    {
+        if (col.GetComponent<Spider>()) {
+            Spider spider = col.GetComponent<Spider>();
+
+            if (spider.victim != null) {
+                spider.victim.AtTable();
+                spider.victim.transform.position = this.transform.position;
+                spider.victim = null;
+            }
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

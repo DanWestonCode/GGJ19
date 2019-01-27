@@ -23,20 +23,23 @@ public class Fly : MonoBehaviour {
 	}
     
     public void Caught () {
-        GetComponent<NodeMovement>().setState(NodeMovement.MoveState.none);
+        GetComponent<NodeMovement>().setState(NodeMovement.MoveState.caught);
         GetComponent<NodeMovement>().dropFood();
 
         FlyState = FlyStates.Caught;
     }
 
     public void Kill () {
+        GetComponent<NodeMovement>().setState(NodeMovement.MoveState.none);
+
         this.transform.position = new Vector2(2000, 2000);
         GetComponent<NodeMovement>().dropFood();
     }
 
     public void AtTable()
 	{
-		FlyState = FlyStates.AtTable;
+        GetComponent<NodeMovement>().setState(NodeMovement.MoveState.caught);
+        FlyState = FlyStates.AtTable;
 	}
 
 
