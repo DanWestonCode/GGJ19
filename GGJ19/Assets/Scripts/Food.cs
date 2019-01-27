@@ -4,12 +4,16 @@ using UnityEngine;
 
 
 public class Food : MonoBehaviour {
+
+	public Vector3 StartLocation;
+
 	public GameObject foodManagerGameObject;
 	public FoodManager foodManagerComponent;
 	public enum PickUpStates {gotPickedUp, isPickedUp, gotDropped, Static,Stolen};
 	public PickUpStates PickUpState;
 
 	void Start () {
+		StartLocation = transform.position;
 		PickUpState = PickUpStates.Static;
 		foodManagerComponent = foodManagerGameObject.GetComponent<FoodManager>();
 		Vector3 targetPosition = gameObject.transform.position - (new Vector3(0,1,0));
@@ -29,5 +33,9 @@ public class Food : MonoBehaviour {
 		PickUpState = PickUpStates.gotPickedUp;
 		foodManagerComponent.LogPickedUp(this.gameObject);
 		PickUpState = PickUpStates.isPickedUp;
+	}
+	public void SetToStartLocation()
+	{
+		transform.position = StartLocation;
 	}
 }
