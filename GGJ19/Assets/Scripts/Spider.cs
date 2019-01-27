@@ -266,8 +266,12 @@ public class Spider : MonoBehaviour {
             bool hitTrigger = false;
             for (int i = 0, counti = hit.Length; i < counti; i++) {
                if (hit[i].collider != null) {
-                    hitTrigger = true;              
+                    hitTrigger = true;
                     // Spider has hit platform which is not theirs
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Spoder/Web_Cast");
+                    FMODUnity.RuntimeManager.PlayOneShot("event:/Flappy Fly/Fly_Hit");
+
+
                     if (hit[i].transform.GetComponent<WebPlatform>() != null && hit[i].transform.GetComponent<WebPlatform>() != currentPlatform) {
                         // grab the platform we're aiming at
                         WebPlatform nextPlatform = hit[i].transform.gameObject.GetComponent<WebPlatform>();
@@ -324,6 +328,9 @@ public class Spider : MonoBehaviour {
                         Debug.Log("Hit Fly");
 
                         hitTrigger = true;
+
+                        FMODUnity.RuntimeManager.PlayOneShot("event:/Spoder/Spider_Exertion");
+
 
                         Fly nextFly = hit[i].transform.GetComponent<Fly>();
                         /// i.e spider is not carrying anyone
