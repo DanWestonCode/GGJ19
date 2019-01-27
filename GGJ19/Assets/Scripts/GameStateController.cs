@@ -9,23 +9,23 @@ public class GameStateController : MonoBehaviour
     public enum GameStates {Pending, Running, Over};
 	public GameStates GameState;
 
-    // Start is called before the first frame update
     void Start()
     {
         EndState = EndGameStates.Pending;
         GameState = GameStates.Pending;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown("space") && GameState == GameStates.Pending)
+        {
+            GameState = GameStates.Running;
+            Debug.Log("Game State set to Running!");
+        }
     }
 
     public void SetGameStateToOver()
     {
-        Debug.Log("Ending Game!");
         GameState = GameStates.Over;
-        Debug.Log(GameState);
     }
 }
