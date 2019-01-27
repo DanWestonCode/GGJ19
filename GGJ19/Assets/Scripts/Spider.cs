@@ -94,8 +94,13 @@ public class Spider : MonoBehaviour {
         Target();
         Shoot();
         Move();
-    }
+    }    
+    
+    void OnTriggerEnter2D(Collider2D other) 
+    {
+        Debug.Log("Please drop fly and set to AtTable state");
 
+    }
     private void Move() {
         Vector2 dir = Vector2.zero;
 
