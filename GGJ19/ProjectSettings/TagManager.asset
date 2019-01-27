@@ -10,6 +10,7 @@ TagManager:
   - FlyManager
   - end_win
   - end_lose
+  - Food
   layers:
   - Default
   - TransparentFX

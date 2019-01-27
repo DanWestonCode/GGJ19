@@ -24,7 +24,7 @@ public class FlyManager : MonoBehaviour
         
     }
 
-    void TryToSpawnfly(Node spawnNode)
+    public void TryToSpawnfly(Node spawnNode)
     {
         GameObject flyPicked = null;
         //find a fly that is not active

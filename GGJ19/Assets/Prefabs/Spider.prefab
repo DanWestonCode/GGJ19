@@ -53,6 +53,7 @@ MonoBehaviour:
   reticle: {fileID: 55225079925614518}
   web: {fileID: 55225079349989744}
   animator: {fileID: 126418328}
+  spriteRenderer: {fileID: 55225078740558168}
 --- !u!212 &55225078740558168
 SpriteRenderer:
   m_ObjectHideFlags: 0

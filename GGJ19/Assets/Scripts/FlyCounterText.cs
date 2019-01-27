@@ -17,8 +17,8 @@ public class FlyCounterText : MonoBehaviour
     
     void Update()
     {
-        Debug.Log(gameObject.GetComponent<Text>().text);
-        Debug.Log(flyManager.atTableFlyCount.ToString());
+        //Debug.Log(gameObject.GetComponent<Text>().text);
+        //Debug.Log(flyManager.atTableFlyCount.ToString());
         int count =  flyManager.atTableWinFlyCount - flyManager.atTableFlyCount;
         if(gameObject.GetComponent<Text>().text != count.ToString())
         {
