@@ -18,8 +18,7 @@ MonoBehaviour:
     Animal.fspro
   SourceProjectPathUnformatted: /Volumes/Samples SSD/GAME JAM/FMOD PROJECT/Adjective
     Animal/Adjective Animal.fspro
-  SourceBankPathUnformatted: /Volumes/Samples SSD/GAME JAM/FMOD PROJECT/Adjective
-    Animal/Build/Desktop
+  SourceBankPathUnformatted: /Volumes/Samples SSD/Git/GGJ19/GGJ19
   AutomaticEventLoading: 1
   AutomaticSampleLoading: 0
   ImportType: 0
