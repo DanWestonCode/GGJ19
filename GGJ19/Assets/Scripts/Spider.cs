@@ -37,7 +37,7 @@ public class Spider : MonoBehaviour {
     /// <summary>
     /// How long the spider web is
     /// </summary>
-    float slingDist = 25.0f;
+    float slingDist = 4.5f;
 
     /// <summary>
     /// Will be set to true when landed during zip
@@ -125,6 +125,7 @@ public class Spider : MonoBehaviour {
     };
 
     State state;
+
     RotState rotState;
 
     private void Awake() {
@@ -139,6 +140,7 @@ public class Spider : MonoBehaviour {
         state = State.Idle;
         rotState = RotState.normalHorizontal;
     }
+
     void Update() {   
         Target();
         Shoot();
@@ -266,7 +268,6 @@ public class Spider : MonoBehaviour {
             bool hitTrigger = false;
             for (int i = 0, counti = hit.Length; i < counti; i++) {
                if (hit[i].collider != null) {
-                    hitTrigger = true;              
                     // Spider has hit platform which is not theirs
                     if (hit[i].transform.GetComponent<WebPlatform>() != null && hit[i].transform.GetComponent<WebPlatform>() != currentPlatform) {
                         // grab the platform we're aiming at
@@ -274,6 +275,8 @@ public class Spider : MonoBehaviour {
 
                         // can't zip to same platform... this causes issues...
                         if (currentWeb == null && nextPlatform != null && nextPlatform != currentPlatform) {
+                            hitTrigger = true;
+
                             currentWeb = new Web(this.transform.position, hit[i].point, hit[i].transform.gameObject.GetComponent<WebPlatform>());
                             Vector2 target = currentWeb.end;
                             currentOrientation = currentWeb.target.Direction();
@@ -346,7 +349,7 @@ public class Spider : MonoBehaviour {
             if (!hitTrigger) {
                 Debug.Log("No Hit");
                 Debug.DrawRay(transform.position, aimDirection * slingDist, Color.yellow);
-                web.SetPosition(1, this.transform.position + (Vector3)(aimDirection * 3));
+                web.SetPosition(1, this.transform.position + (Vector3)(aimDirection * slingDist));
             }       
 
         } else {
@@ -356,8 +359,7 @@ public class Spider : MonoBehaviour {
             }
         }
     }
-
-    
+        
     IEnumerator IZip(Vector2 target) {
         bool loop = true;
         animator.SetTrigger("Fly");
