@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spider : MonoBehaviour {
@@ -92,6 +91,8 @@ public class Spider : MonoBehaviour {
 
     public Animator animator;
 
+    public SpriteRenderer spriteRenderer;
+
     private enum State {
         Idle, 
         Walking, 
@@ -99,20 +100,29 @@ public class Spider : MonoBehaviour {
         Flying
     };
 
+    private enum RotState {
+        normalHorizontal,
+        InvertHorizontal,
+        normalVertical, 
+        invertVertical
+    };
+
     State state;
+    RotState rotState;
 
     private void Awake() {
         Debug.Assert(reticle != null);
         Debug.Assert(web!= null);
         Debug.Assert(animator != null);
+        Debug.Assert(spriteRenderer != null);
         
         raycastMask = LayerMask.GetMask("Floor");
         raycastMask |= LayerMask.GetMask("Fly");
 
         state = State.Idle;
+        rotState = RotState.normalHorizontal;
     }
-
-    void Update() {
+    void Update() {   
         Target();
         Shoot();
         Move();
@@ -123,8 +133,16 @@ public class Spider : MonoBehaviour {
 
         // stop movement whilst zipping
         if (currentZip == null) {
+
             if (Input.GetKey(KeyCode.D) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
                 dir = Vector3.right;
+
+                if (rotState == RotState.normalHorizontal) {
+                    // horizontal 
+                    spriteRenderer.flipX = true;
+                } else {
+                    spriteRenderer.flipX = false;
+                }
 
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= (this.currentPlatform.end.position.x) + (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                     dir = Vector2.zero;
@@ -134,6 +152,14 @@ public class Spider : MonoBehaviour {
             if (Input.GetKey(KeyCode.A) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
                 dir = Vector3.left;
 
+                if (rotState == RotState.normalHorizontal) {
+                    // horizontal 
+                    spriteRenderer.flipX = false;
+                }
+                else {
+                    spriteRenderer.flipX = true;
+                }
+
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                     dir = Vector2.zero;
                 }
@@ -142,6 +168,13 @@ public class Spider : MonoBehaviour {
             if (Input.GetKey(KeyCode.W) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
                 dir = Vector3.up;
 
+                if (rotState == RotState.normalVertical) {
+                    spriteRenderer.flipX = true;
+                }
+                else {
+                    spriteRenderer.flipX = false;
+                }
+
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
                 }
@@ -149,6 +182,13 @@ public class Spider : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
                 dir = Vector3.down;
+
+                if (rotState == RotState.normalVertical) {
+                    spriteRenderer.flipX = false;
+                }
+                else {
+                    spriteRenderer.flipX = true;
+                }
 
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
@@ -196,10 +236,10 @@ public class Spider : MonoBehaviour {
                                 
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, raycastMask);
 
-            web.startColor = Color.red;
-            web.startColor = Color.red;
+            web.startColor = Color.white;
+            web.startColor = Color.white;
 
-            web.SetWidth(0.1f, 0.1f);
+            web.SetWidth(0.05f, 0.05f);
             web.positionCount = 2;
             web.SetPosition(0, this.transform.position);
 
@@ -219,6 +259,42 @@ public class Spider : MonoBehaviour {
                             currentOrientation = currentWeb.target.Direction();
                             //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
                             currentZip = StartCoroutine(IZip(target));
+
+                            float dot = Vector2.Dot(hit[i].normal, Vector2.up);
+
+                            Debug.Log(string.Format("Surface Normal: {0}, Spider Up {1}, Dot {2}", hit[i].normal, Vector2.up, dot));
+
+                            // floor
+                            if (dot <= -1) {
+                                Debug.Log("Horizontal");
+                                Quaternion currentRot = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z);
+                                rotState = RotState.InvertHorizontal;
+
+                                this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, 180);                                
+                            }
+
+                            // ceiling
+                            if (dot >= 1) {
+                                Debug.Log("Horizontal");
+                                rotState = RotState.normalHorizontal;
+
+                                Quaternion currentRot = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z);
+                                this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, 0);
+                            }
+
+
+                            if ((dot > 0 && dot < 1) || (dot < 0 && dot > -1)) {
+                                Debug.Log("Vertical");
+
+                                Quaternion currentRot = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, this.transform.rotation.z);
+                                if (aimDirection.x < 0) {
+                                    rotState = RotState.invertVertical;
+                                    this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, -90);
+                                }else {
+                                    rotState = RotState.normalVertical;
+                                    this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, 90);
+                                }
+                            }                 
                         }
                     }
                     // Fly has caught spider
@@ -252,6 +328,8 @@ public class Spider : MonoBehaviour {
         }
     }
 
+
+
     IEnumerator IZip(Vector2 target) {
         bool loop = true;
         animator.SetTrigger("Fly");
@@ -260,6 +338,7 @@ public class Spider : MonoBehaviour {
             state = State.Flying;
 
             transform.position = Vector3.MoveTowards(transform.position, target, zipSpeed * Time.deltaTime);
+
             web.SetPosition(0, this.transform.position);
             web.SetPosition(1, target);
 
@@ -268,7 +347,6 @@ public class Spider : MonoBehaviour {
                 yield return null;
             }
             else {
-                Debug.Log("Setting vars to false");
                 transform.position = target;                         
 
                 currentPlatform = currentWeb.target;           
@@ -298,8 +376,6 @@ public class Spider : MonoBehaviour {
                 if ((Vector2.Distance(this.transform.position, victim.transform.position) > 0.25f)) {
                     yield return null;
                 } else {
-                    Debug.Log("Setting vars to false");
-
                     loop = false;
                     currentZip = null;
                 }
