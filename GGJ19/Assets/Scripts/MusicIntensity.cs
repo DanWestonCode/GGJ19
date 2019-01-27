@@ -11,7 +11,6 @@ public class MusicIntensity : MonoBehaviour
     int FoodCount;
     void Start() {
         Intensity = 0f;
-        Intro = 0;
         FoodCount = fm_Obj.GetComponent<FoodManager>().FoodObjects.Length; 
     }
 
@@ -33,5 +32,6 @@ public class MusicIntensity : MonoBehaviour
             default:
                 break;
         }
+        gameObject.GetComponent<FMODUnity.StudioEventEmitter>().SetParameter("Intensity",Intensity);
     }
 }
