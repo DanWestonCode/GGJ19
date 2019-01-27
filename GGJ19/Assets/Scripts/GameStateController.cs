@@ -29,7 +29,6 @@ public class GameStateController : MonoBehaviour
     public void SetGameStateToRunning()
     {
         GameState = GameStates.Running;
-        Debug.Log("Game State set to Running!");
 
         StartSpawntimers();
 
