@@ -37,7 +37,7 @@ public class Spider : MonoBehaviour {
     /// <summary>
     /// How long the spider web is
     /// </summary>
-    float slingDist = 4.5f;
+    float slingDist = 4.75f;
 
     /// <summary>
     /// Will be set to true when landed during zip
@@ -324,6 +324,10 @@ public class Spider : MonoBehaviour {
                     }
                     // Fly has caught spider
                     else if (hit[i].transform.GetComponent<Fly>() && hit[i].transform.GetComponent<Fly>() != victim) {
+                        if (hit[i].transform.GetComponent<Fly>().FlyState == Fly.FlyStates.AtTable) {
+                            continue;
+                        }
+
                         Debug.Log("Hit Fly");
 
                         hitTrigger = true;
