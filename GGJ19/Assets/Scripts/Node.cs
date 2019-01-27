@@ -79,7 +79,6 @@ public class Node : MonoBehaviour {
 
     private void TryToSpawnFly()
     {
-        Debug.Log("spawn fly plz (Node.cs)");
         //go through the list of flies, if one is not spawned, spawn it here
         FlyManager.instance.TryToSpawnfly(this);
     }

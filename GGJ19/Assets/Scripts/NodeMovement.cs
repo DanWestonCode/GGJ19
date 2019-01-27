@@ -145,8 +145,8 @@ public class NodeMovement : MonoBehaviour {
             {
                 for (int i = 0; i < neighbours.Count; i++)
                 {
-                    if (openList.Contains(neighbours[i]))
-                    {
+                    if (openList.Contains(neighbours[i]) && !neighbours[i].gameObject.GetComponent<Food>())
+                    { 
                         float nodeF = calculateF(neighbours[i], pathCosts);
                         if (nodeF < lowestF)
                         {
@@ -267,7 +267,7 @@ public class NodeMovement : MonoBehaviour {
                     this.targetClosest(Node.NodeType.food);
                 }
 
-                if (currentPath == null)
+                if (currentPath == null || currentPath.Count == 0)
                 {
                     pathToTarget();
                 }
@@ -284,7 +284,7 @@ public class NodeMovement : MonoBehaviour {
                     this.targetClosest(Node.NodeType.spawn);
                 }
 
-                if (currentPath == null)
+                if (currentPath == null || currentPath.Count == 0)
                 {
                     pathToTarget();
                 }
@@ -298,7 +298,7 @@ public class NodeMovement : MonoBehaviour {
 
         if (pickedUpFood != null)
         {
-            pickedUpFood.transform.position = transform.position + new Vector3(5.0f, -2.5f, 0.0f);
+            pickedUpFood.transform.position = transform.position + new Vector3(0.1f, 0.1f, 0.0f);
         }
 
         prevState = state;
@@ -307,7 +307,7 @@ public class NodeMovement : MonoBehaviour {
     void moveAlongPath(MoveState stateRef)
     {
         direction = Vector3.negativeInfinity;
-        if (currentNode != null && currentPath != null)
+        if (currentNode != null && currentPath != null && currentPath.Count != 0)
         {
             if (currentNode == currentPath[0])
             {
@@ -317,7 +317,6 @@ public class NodeMovement : MonoBehaviour {
 
             //move towards the top node of the current path
             direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
-            Debug.Log(direction);
 
             gameObject.transform.position += (direction * Time.deltaTime);
         }
@@ -353,11 +352,8 @@ public class NodeMovement : MonoBehaviour {
         if (direction != Vector3.negativeInfinity)
         {
             postDirection = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
-            Debug.Log(postDirection);
             if (postDirection != direction || direction == Vector3.zero)
             {
-                Debug.Log("different");
-
                 //we have passed the point
                 gameObject.transform.position = currentPath[0].gameObject.transform.position;
 
@@ -369,18 +365,19 @@ public class NodeMovement : MonoBehaviour {
                     //we have reached the target, do the thing we need to do
                     if (stateRef == MoveState.toFood)
                     {
-                        setState(MoveState.toSpawn);
-
                         //reached food, pick it up
-
                         Debug.Log("finding food component");
 
-                        if (currentTarget.GetComponent<Food>() != null)
+                        Debug.Log(currentTarget.gameObject.tag);
+
+                        if (currentTarget.gameObject.GetComponent<Food>())
                         {
                             Debug.Log("food component found");
-                            currentTarget.GetComponent<Food>().PickUp();
+                            currentTarget.gameObject.GetComponent<Food>().PickUp();
                             pickedUpFood = currentTarget.gameObject;
                         }
+
+                        setState(MoveState.toSpawn);
                     }
                     else if (stateRef == MoveState.toSpawn)
                     {
