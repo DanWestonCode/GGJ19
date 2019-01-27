@@ -23,20 +23,6 @@ public class GameStateController : MonoBehaviour
         {
             SetGameStateToRunning();
         }
-        if(GameState == GameStates.Over)
-        {
-            switch (EndState)
-            {
-                case EndGameStates.Good:
-                    GameObject.FindGameObjectWithTag("end_win").SetActive(true);
-                    break;
-                case EndGameStates.Bad:
-                    GameObject.FindGameObjectWithTag("end_lose").SetActive(true);
-                    break;
-                default:
-                break;
-            }
-        }
     }
 
     public void SetGameStateToRunning()

@@ -11,7 +11,8 @@ public class FoodManager : MonoBehaviour {
 	public GameObject FoodPrefab;
 	public GameObject Home;
 	public GameObject gameStateController;
-	public List<GameObject> FoodObjects; 
+	public GameObject[] FoodObjects; 
+
 	public delegate void PickUpFoodEvent(GameObject food);
 	public static event PickUpFoodEvent OnPickUpFood;
 
@@ -19,11 +20,14 @@ public class FoodManager : MonoBehaviour {
 	public Sprite[] FoodSprites;
 	public bool ShowFoodSpawnAreasInGame;
 	void Start () {
+		
+		FoodObjects =  GameObject.FindGameObjectsWithTag("Food");
 		//CreateStartingFood();		
 	}
 	void Update () 
 	{
 		CheckFoodStolenCount();
+		
 	}
 
 	void CheckFoodStolenCount()
@@ -36,14 +40,14 @@ public class FoodManager : MonoBehaviour {
 				StolenCount ++;
 			}
 		}
-		if(StolenCount >= FoodObjects.Count)
+		if(StolenCount >= FoodObjects.Length)
 		{
 			gameStateController.GetComponent<GameStateController>().SetGameStateToOver();
 			gameStateController.GetComponent<GameStateController>().SetEndStateToBad();
 
 		}
 	}
-
+	/*
 	void CreateStartingFood()
 	{
 		FoodSpawnAreas = GameObject.FindGameObjectsWithTag("FoodSpawnArea");
@@ -77,7 +81,7 @@ public class FoodManager : MonoBehaviour {
 			}
 		}
 	}
-
+	*/
 
 	Sprite SelectFoodSprite()
 	{
@@ -91,8 +95,8 @@ public class FoodManager : MonoBehaviour {
 		{
 			Destroy(food);
 		}
-		FoodObjects.Clear();
-		CreateStartingFood();
+		//FoodObjects.Clear();
+		//CreateStartingFood();
 	}
 
 	public void LogPickedUp(GameObject f)
