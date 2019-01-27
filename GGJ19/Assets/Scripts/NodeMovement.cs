@@ -405,6 +405,8 @@ public class NodeMovement : MonoBehaviour {
                         if (pickedUpFood != null)
                         {
                             pickedUpFood.GetComponent<Food>().PickUpState = Food.PickUpStates.Stolen;
+                            pickedUpFood.transform.position = new Vector3(-2000, 0, 0);
+                            pickedUpFood = null;
                         }
                         // END AUDIO LOOP HERE!
                         GetComponent<FMODUnity.StudioEventEmitter>().Stop();
