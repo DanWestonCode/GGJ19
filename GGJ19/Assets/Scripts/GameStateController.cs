@@ -10,7 +10,6 @@ public class GameStateController : MonoBehaviour
 	public GameStates GameState;
 
     public List<Node> SpawnNodes;
-
     void Start()
     {
         EndState = EndGameStates.Pending;
@@ -63,6 +62,9 @@ public class GameStateController : MonoBehaviour
         StopSpawntimers();
 
         GameState = GameStates.Over;
+
+        Camera.main.GetComponent<FMODUnity.StudioEventEmitter>().SetParameter("Ending", 1);
+
     }
     public void SetEndStateToGood()
     {
@@ -71,6 +73,8 @@ public class GameStateController : MonoBehaviour
         StopFlies();
 
         EndState = EndGameStates.Good;
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Flappy Fly/Fly_Ending");
+
     }
     public void SetEndStateToBad()
     {

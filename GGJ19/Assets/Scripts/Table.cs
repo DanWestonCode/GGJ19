@@ -12,6 +12,8 @@ public class Table : MonoBehaviour {
                 spider.victim.AtTable();
                 spider.victim.transform.position = this.transform.position;
                 spider.victim = null;
+                FMODUnity.RuntimeManager.PlayOneShot("event:/Flappy Fly/Fly_Struggle");
+
             }
         }
 

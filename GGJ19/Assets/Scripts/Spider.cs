@@ -218,10 +218,14 @@ public class Spider : MonoBehaviour {
         if (dir == Vector2.zero && currentZip == null) {
             animator.SetTrigger("Idle");
             state = State.Idle;
+            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+
         }
         else if (dir != Vector2.zero) {
             animator.SetTrigger("Walk");
             state = State.Walking;
+            GetComponent<FMODUnity.StudioEventEmitter>().Play();
+
         }
 
         if (victim != null && currentReel == null) {
@@ -254,6 +258,7 @@ public class Spider : MonoBehaviour {
         if (Input.GetMouseButtonDown(0) && currentZip == null) {
             state = State.Shooting;
 
+
             animator.SetTrigger("Fire");
 
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, raycastMask);
@@ -277,12 +282,17 @@ public class Spider : MonoBehaviour {
                         if (currentWeb == null && nextPlatform != null && nextPlatform != currentPlatform) {
                             hitTrigger = true;
 
+                            FMODUnity.RuntimeManager.PlayOneShot("event:/Spoder/Web_Splat");
+
                             currentWeb = new Web(this.transform.position, hit[i].point, hit[i].transform.gameObject.GetComponent<WebPlatform>());
                             Vector2 target = currentWeb.end;
                             currentOrientation = currentWeb.target.Direction();
                             //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
                             Debug.Log("SETTING CURRENT ZIP");
                             currentZip = StartCoroutine(IZip(target));
+
+                            GetComponent<FMODUnity.StudioEventEmitter>().Stop();
+
 
                             float dot = Vector2.Dot(hit[i].normal, Vector2.up);
 
