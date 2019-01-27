@@ -53,3 +53,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 04531fc8be970634abf41ae78c7a81af, type: 3}
   - {fileID: 21300000, guid: 73d29397c629a4746a9412b7eabe4fa3, type: 3}
   - {fileID: 21300000, guid: 5dce3f95902c69047b2485721ee613f7, type: 3}
+  ShowFoodSpawnAreasInGame: 1
