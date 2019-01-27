@@ -28,8 +28,7 @@ public class NodeMovement : MonoBehaviour {
     private List<Node> openList;
     private List<Node> closedList;
 
-    [SerializeField]
-    private Node currentNode;
+    public Node currentNode;
 
     private Node currentTarget;
 
@@ -73,6 +72,11 @@ public class NodeMovement : MonoBehaviour {
     void startShake()
     {
 
+    }
+
+    public NodeMovement.MoveState getState()
+    {
+        return state;
     }
 
     public void setState(MoveState newState)
@@ -207,6 +211,14 @@ public class NodeMovement : MonoBehaviour {
         Node closestNode = null;
         for (int i = 0; i < consideredList.Count; i++)
         {
+            if (consideredList[i].GetComponent<Food>())
+            {
+                if (consideredList[i].GetComponent<Food>().PickUpState != Food.PickUpStates.Static)
+                {
+                    continue;
+                }
+            }
+
             if (closestNode == null)
             {
                 closestNode = consideredList[i];
@@ -239,6 +251,15 @@ public class NodeMovement : MonoBehaviour {
 
             case MoveState.toFood:
                 //make sure the food has not been picked up
+                if (currentTarget.GetComponent<Food>())
+                {
+                    if (currentTarget.GetComponent<Food>().PickUpState != Food.PickUpStates.Static)
+                    {
+                        currentTarget = null;
+                        currentPath = null;
+                    }
+                }
+
                 if (currentTarget == null)
                 {
                     this.targetClosest(Node.NodeType.food);
@@ -348,10 +369,7 @@ public class NodeMovement : MonoBehaviour {
                     }
                     else if (stateRef == MoveState.toSpawn)
                     {
-                        setState(MoveState.toFood);
-
-                        //reached spawn (with food)
-                        //TODO: hook into flys escaping
+                        setState(MoveState.none);
                     }
                 }
             }

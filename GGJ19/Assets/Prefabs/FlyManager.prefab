@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6753112285740820961}
   m_Layer: 0
   m_Name: FlyManager
-  m_TagString: Untagged
+  m_TagString: FlyManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0731f01d2d34963429d579cb7e39bada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atTableWinFlyCount: 2
-  AllFlys: []
+  atTableWinFlyCount: 8
+  AllFlys:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   atTableFlyCount: 0
   gsc: {fileID: 0}
