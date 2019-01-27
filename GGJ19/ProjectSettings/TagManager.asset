@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FoodSpawnArea
   - Fly
+  - Spider
   layers:
   - Default
   - TransparentFX
