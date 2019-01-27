@@ -10,7 +10,7 @@ public class FoodManager : MonoBehaviour {
 	public int StartQuantity;
 	public GameObject FoodPrefab;
 	public GameObject Home;
-	public GameObject gameStateManager;
+	public GameObject gameStateController;
 	public List<GameObject> FoodObjects; 
 	public delegate void PickUpFoodEvent(GameObject food);
 	public static event PickUpFoodEvent OnPickUpFood;
@@ -38,7 +38,7 @@ public class FoodManager : MonoBehaviour {
 		}
 		if(StolenCount >= FoodObjects.Count)
 		{
-			gameStateManager.GetComponent<GameStateController>().SetGameStateToOver();
+			gameStateController.GetComponent<GameStateController>().SetGameStateToOver();
 		}
 	}
 
