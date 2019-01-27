@@ -40,7 +40,7 @@ public class GameStateController : MonoBehaviour
         {
             for (int i = 0; i < SpawnNodes.Count; i++)
             {
-                float delay = i * 2;
+                float delay = i;
                 SpawnNodes[i].StartSpawning(delay);
             }
         }

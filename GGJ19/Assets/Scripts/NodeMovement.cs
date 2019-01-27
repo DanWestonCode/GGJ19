@@ -312,7 +312,7 @@ public class NodeMovement : MonoBehaviour {
             direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
             Debug.Log(direction);
 
-            gameObject.transform.position += (direction * Time.deltaTime * 10);
+            gameObject.transform.position += (direction * Time.deltaTime);
         }
     }
 
