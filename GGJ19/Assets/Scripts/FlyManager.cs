@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class FlyManager : MonoBehaviour
 {
+    public static FlyManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
 
     public int atTableWinFlyCount;
 
@@ -15,6 +22,30 @@ public class FlyManager : MonoBehaviour
     void Start()
     {
         
+    }
+
+    public void TryToSpawnfly(Node spawnNode)
+    {
+        GameObject flyPicked = null;
+        //find a fly that is not active
+        for (int i = 0; i < AllFlys.Length; i++)
+        {
+            NodeMovement.MoveState flyState = AllFlys[i].GetComponent<NodeMovement>().getState();
+            if (flyState == NodeMovement.MoveState.none || flyState == NodeMovement.MoveState.hover)
+            {
+                //try to spawn the fly
+                flyPicked = AllFlys[i];
+                break;
+            }
+        }
+
+        if (flyPicked != null)
+        {
+            NodeMovement flyMoveNode = flyPicked.GetComponent<NodeMovement>();
+            flyPicked.transform.position = spawnNode.transform.position;
+            flyMoveNode.currentNode = spawnNode;
+            flyMoveNode.setState(NodeMovement.MoveState.toFood);
+        }
     }
 
     // Update is called once per frame

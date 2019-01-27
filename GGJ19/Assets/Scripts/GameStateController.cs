@@ -9,7 +9,7 @@ public class GameStateController : MonoBehaviour
     public enum GameStates {Pending, Running, Over};
 	public GameStates GameState;
 
-    //public List<Node> SpawnNodes;
+    public List<Node> SpawnNodes;
 
     void Start()
     {
@@ -30,18 +30,18 @@ public class GameStateController : MonoBehaviour
         GameState = GameStates.Running;
         Debug.Log("Game State set to Running!");
 
-        //StartSpawntimers();
+        StartSpawntimers();
 
     }
 
-/*    void StartSpawntimers()
+    void StartSpawntimers()
     {
         if (SpawnNodes.Count != 0)
         {
             for (int i = 0; i < SpawnNodes.Count; i++)
             {
                 float delay = i * 2;
-                //SpawnNodes[i].StartSpawning(delay);
+                SpawnNodes[i].StartSpawning(delay);
             }
         }
     }
@@ -52,13 +52,15 @@ public class GameStateController : MonoBehaviour
         {
             for (int i = 0; i < SpawnNodes.Count; i++)
             {
-                //SpawnNodes[i].StopSpawning();
+                SpawnNodes[i].StopSpawning();
             }
         }
     }
-*/
+
     public void SetGameStateToOver()
     {
+        StopSpawntimers();
+
         GameState = GameStates.Over;
     }
     public void SetEndStateToGood()

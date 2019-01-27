@@ -11,15 +11,73 @@ public class Node : MonoBehaviour {
 
     public List<Node> Neighbours;
 
+    private bool CountForSpawn = false;
+
+    private float SpawnStartDelay = 0.0f;
+    private float SpawnTimeStart = 10.0f;
+    private float SpawnTimer;
+
     public NodeType getType()
     {
         return Type;
     }
 
+    public void StartSpawning(float delay)
+    {
+        //start spawning every 5 seconds after the delay
+        SpawnStartDelay = delay;
+        CountForSpawn = true;
+        SpawnTimer = SpawnTimeStart;
+    }
+
+    public void StopSpawning()
+    {
+        //stop spawning
+        CountForSpawn = false;
+        SpawnTimer = SpawnTimeStart;
+    }
+
     //need to reassign neighbors when food is dropped
     public void handleDropped()
     {
-        //find nearest 4 other nodes that are above this position on the y axis
-        //go through in order of distance, once one has been found that has a neighbour that is another node in the list, this must be the neighbour
+        //go back to the food spawn area stored in Food.cs
+    }
+
+    private void Update()
+    {
+        if (CountForSpawn)
+        {
+            if (SpawnStartDelay >= 0.0f)
+            {
+                SpawnStartDelay -= Time.deltaTime;
+                if (SpawnStartDelay <= 0.0f)
+                {
+                    SpawnStartDelay = 0.0f;
+                }
+            }
+            else
+            {
+                SpawnTimer -= Time.deltaTime;
+
+                if (SpawnTimer <= 0.0f)
+                {
+                    TryToSpawnFly();
+
+                    ResetTimer();
+                }
+            }
+        }
+    }
+
+    private void ResetTimer()
+    {
+        SpawnTimer = SpawnTimeStart;
+    }
+
+
+    private void TryToSpawnFly()
+    {
+        //go through the list of flies, if one is not spawned, spawn it here
+        FlyManager.instance.TryToSpawnfly(this);
     }
 }
