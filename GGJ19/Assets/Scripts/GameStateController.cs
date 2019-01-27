@@ -15,13 +15,14 @@ public class GameStateController : MonoBehaviour
     {
         EndState = EndGameStates.Pending;
         GameState = GameStates.Pending;
+
+        SetGameStateToRunning();
     }
 
     void Update()
     {
         if(Input.GetKeyDown("space") && GameState == GameStates.Pending)
         {
-            SetGameStateToRunning();
         }
     }
 
