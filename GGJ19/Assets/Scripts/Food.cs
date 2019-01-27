@@ -33,8 +33,7 @@ public class Food : MonoBehaviour {
 		PickUpState = PickUpStates.gotPickedUp;
 		foodManagerComponent.LogPickedUp(this.gameObject);
 		PickUpState = PickUpStates.isPickedUp;
-
-        if 
+ 
         FMODUnity.RuntimeManager.PlayOneShot("event:/Flappy Fly/Fly_Food");
 
     }
