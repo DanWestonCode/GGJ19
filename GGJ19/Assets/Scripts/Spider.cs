@@ -85,9 +85,20 @@ public class Spider : MonoBehaviour {
     /// </summary>
     private Fly victim;
 
+    /// <summary>
+    /// Setup in Awake, the layers which the spiders web will consider.
+    /// </summary>
+    private LayerMask raycastMask;
+
+    public Animator animatior;
+
     private void Awake() {
-        Debug.Assert(reticle);
-        Debug.Assert(web);
+        Debug.Assert(reticle != null);
+        Debug.Assert(web!= null);
+        Debug.Assert(animatior != null);
+        
+        raycastMask = LayerMask.GetMask("Floor");
+        raycastMask |= LayerMask.GetMask("Fly");
     }
 
     void Update() {
@@ -99,8 +110,6 @@ public class Spider : MonoBehaviour {
     private void Move() {
         Vector2 dir = Vector2.zero;
 
-        // Only reconsider a zip when we have a web, the key is pressed and there is no current zipping!
-
         // stop movement whilst zipping
         if (currentZip == null) {
             if (Input.GetKey(KeyCode.D) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
@@ -108,6 +117,9 @@ public class Spider : MonoBehaviour {
 
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= (this.currentPlatform.end.position.x) + (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                     dir = Vector2.zero;
+                }
+                else {
+                    animatior.SetTrigger("Walk");
                 }
             }
 
@@ -117,6 +129,9 @@ public class Spider : MonoBehaviour {
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                     dir = Vector2.zero;
                 }
+                else {
+                    animatior.SetTrigger("Walk");
+                }
             }
 
             if (Input.GetKey(KeyCode.W) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
@@ -125,6 +140,9 @@ public class Spider : MonoBehaviour {
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
                 }
+                else {
+                    animatior.SetTrigger("Walk");
+                }
             }
 
             if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
@@ -132,11 +150,18 @@ public class Spider : MonoBehaviour {
 
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
+                } else {
+                    animatior.SetTrigger("Walk");
                 }
             }
         }
 
-        this.transform.position += (Vector3)dir * speed * Time.deltaTime;
+        if (dir == Vector2.zero) {
+            animatior.SetTrigger("Idle");
+        }
+
+
+        this.transform.position += (Vector3)dir * speed * Time.deltaTime;       
     }
 
     private void Target() {
@@ -160,10 +185,8 @@ public class Spider : MonoBehaviour {
     private void Shoot() {
         // left click
         if (Input.GetMouseButtonDown(0) && currentZip == null) {
-
-            var layerMask = LayerMask.GetMask("Floor");
-            layerMask |= LayerMask.GetMask("Fly");
-            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, layerMask);
+                    
+            RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, raycastMask);
 
             web.startColor = Color.red;
             web.startColor = Color.red;
@@ -192,15 +215,17 @@ public class Spider : MonoBehaviour {
                     }
                     // Fly has caught spider
                     else if (hit[i].transform.GetComponent<Fly>()) {
+                        Debug.Log("Hit Fly");
+
                         hitTrigger = true;
 
                         Fly nextFly = hit[i].transform.GetComponent<Fly>();
                         /// i.e spider is not carrying anyone
                         if (victim == null) {
-
+                            victim = nextFly;
+                            currentZip = StartCoroutine(IReelInVictim());
                         }
                     }
-            
                 }
             }
             
@@ -209,7 +234,7 @@ public class Spider : MonoBehaviour {
                 Debug.Log("No Hit");
                 Debug.DrawRay(transform.position, aimDirection * slingDist, Color.yellow);
                 web.SetPosition(1, this.transform.position + (Vector3)(aimDirection * 3));
-            }        
+            }       
 
         } else {
             if (currentZip == null) {
@@ -246,8 +271,31 @@ public class Spider : MonoBehaviour {
             }
         }
     }
+    
+    IEnumerator IReelInVictim () {
+        if (victim != null) {
 
-    //IEnumerator ICaught() {
+            // TODO: set Fly state?      
+            bool loop = true;   
 
-    //}
+            while (loop) {
+                victim.transform.position = Vector3.MoveTowards(victim.transform.position, this.transform.position, zipSpeed * Time.deltaTime);
+                web.SetPosition(0, this.transform.position);
+                web.SetPosition(1, victim.transform.position);
+
+                if ((Vector2.Distance(this.transform.position, victim.transform.position) > 0.25f)) {
+                    yield return null;
+                } else {
+                    Debug.Log("Setting vars to false");
+
+                    loop = false;
+                    currentZip = null;
+                }
+            }
+
+        } else {
+            Debug.LogWarning("IReelInVictim called with now victim to reel!");
+            currentZip = null;
+        }
+    }
 }
