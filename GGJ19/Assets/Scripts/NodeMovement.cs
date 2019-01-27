@@ -101,6 +101,8 @@ public class NodeMovement : MonoBehaviour {
                 break;
 
             case MoveState.toFood:
+                // START AUDIO LOOP HERE!
+                GetComponent<FMODUnity.StudioEventEmitter>().Play();
                 //find and target the closest food
                 targetClosest(Node.NodeType.food);
 
@@ -335,7 +337,7 @@ public class NodeMovement : MonoBehaviour {
             //move towards the top node of the current path
             direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
 
-            gameObject.transform.position += (direction * Time.deltaTime);
+            gameObject.transform.position += (direction * Time.deltaTime * 10);
         }
     }
 
@@ -399,6 +401,15 @@ public class NodeMovement : MonoBehaviour {
                     else if (stateRef == MoveState.toSpawn)
                     {
                         //if reached spawn
+                        //if carrying food
+                        if (pickedUpFood != null)
+                        {
+                            pickedUpFood.GetComponent<Food>().PickUpState = Food.PickUpStates.Stolen;
+                            pickedUpFood.transform.position = new Vector3(-2000, 0, 0);
+                            pickedUpFood = null;
+                        }
+                        // END AUDIO LOOP HERE!
+                        GetComponent<FMODUnity.StudioEventEmitter>().Stop();
 
                         setState(MoveState.none);
                     }
