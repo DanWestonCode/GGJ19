@@ -90,13 +90,15 @@ public class Spider : MonoBehaviour {
     /// </summary>
     private LayerMask raycastMask;
 
-    public Animator animatior;
+    public Animator animator;
 
     private void Awake() {
         Debug.Assert(reticle != null);
         Debug.Assert(web!= null);
-        Debug.Assert(animatior != null);
+        Debug.Assert(animator != null);
         
+
+
         raycastMask = LayerMask.GetMask("Floor");
         raycastMask |= LayerMask.GetMask("Fly");
     }
@@ -119,7 +121,7 @@ public class Spider : MonoBehaviour {
                     dir = Vector2.zero;
                 }
                 else {
-                    animatior.SetTrigger("Walk");
+                    animator.SetTrigger("Walk");
                 }
             }
 
@@ -130,7 +132,7 @@ public class Spider : MonoBehaviour {
                     dir = Vector2.zero;
                 }
                 else {
-                    animatior.SetTrigger("Walk");
+                    animator.SetTrigger("Walk");
                 }
             }
 
@@ -141,7 +143,7 @@ public class Spider : MonoBehaviour {
                     dir = Vector2.zero;
                 }
                 else {
-                    animatior.SetTrigger("Walk");
+                    animator.SetTrigger("Walk");
                 }
             }
 
@@ -151,13 +153,13 @@ public class Spider : MonoBehaviour {
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
                 } else {
-                    animatior.SetTrigger("Walk");
+                    animator.SetTrigger("Walk");
                 }
             }
         }
 
         if (dir == Vector2.zero) {
-            animatior.SetTrigger("Idle");
+            animator.SetTrigger("Idle");
         }
 
 
@@ -185,7 +187,8 @@ public class Spider : MonoBehaviour {
     private void Shoot() {
         // left click
         if (Input.GetMouseButtonDown(0) && currentZip == null) {
-                    
+            animator.SetTrigger("Fire");
+                               
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, raycastMask);
 
             web.startColor = Color.red;
@@ -242,6 +245,14 @@ public class Spider : MonoBehaviour {
                 web.positionCount = 0;
             }
         }
+    }
+
+    private IEnumerator WaitForFireFinish (Animation animation) {
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        do {
+            state = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        } while (animation.isPlaying && state.nameHash == Animator.StringToHash("Base Layer.Fire"));
     }
 
     IEnumerator IZip(Vector2 target) {
