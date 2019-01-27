@@ -59,6 +59,8 @@ public class GameStateController : MonoBehaviour
 
     public void SetGameStateToOver()
     {
+        StopSpawntimers();
+
         GameState = GameStates.Over;
     }
     public void SetEndStateToGood()
