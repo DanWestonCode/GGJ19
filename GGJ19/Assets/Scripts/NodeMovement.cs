@@ -208,6 +208,23 @@ public class NodeMovement : MonoBehaviour {
 
     void targetClosest(Node.NodeType targetType)
     {
+        //check whether all of the food has been picked up
+        if (targetType == Node.NodeType.food) {
+            bool foodAvailable = false;
+            for (int i = 0; i < foodNodes.Count; i++) {
+                if (foodNodes[i].gameObject.GetComponent<Food>().PickUpState == Food.PickUpStates.Static)
+                {
+                    foodAvailable = true;
+                }
+            }
+
+            if (!foodAvailable)
+            {
+                setState(MoveState.toSpawn);
+                return;
+            }
+        }
+
         List<Node> consideredList = targetType == Node.NodeType.food ? foodNodes : spawnNodes;
 
         Node closestNode = null;
@@ -318,7 +335,7 @@ public class NodeMovement : MonoBehaviour {
             //move towards the top node of the current path
             direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
 
-            gameObject.transform.position += (direction * Time.deltaTime);
+            gameObject.transform.position += (direction * Time.deltaTime * 20);
         }
     }
 
@@ -381,6 +398,8 @@ public class NodeMovement : MonoBehaviour {
                     }
                     else if (stateRef == MoveState.toSpawn)
                     {
+                        //if reached spawn
+
                         setState(MoveState.none);
                     }
                 }
