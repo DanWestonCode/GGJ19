@@ -33,7 +33,7 @@ public class FlyManager : MonoBehaviour
         for (int i = 0; i < AllFlys.Length; i++)
         {
             NodeMovement.MoveState flyState = AllFlys[i].GetComponent<NodeMovement>().getState();
-            if (flyState == NodeMovement.MoveState.none || flyState == NodeMovement.MoveState.hover)
+            if (flyState == NodeMovement.MoveState.none)
             {
                 //try to spawn the fly
                 flyPicked = AllFlys[i];

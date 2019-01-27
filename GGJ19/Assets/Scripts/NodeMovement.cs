@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NodeMovement : MonoBehaviour {
 
-    public enum MoveState { none, hover, toFood, toSpawn};
+    public enum MoveState { none, caught, toFood, toSpawn};
 
     [SerializeField]
     private GameObject nodesParent;
@@ -94,8 +94,8 @@ public class NodeMovement : MonoBehaviour {
     {
         switch (state)
         {
-            case MoveState.hover:
-                //just hover
+            case MoveState.caught:
+                //just caught
                 break;
 
             case MoveState.toFood:
@@ -245,7 +245,7 @@ public class NodeMovement : MonoBehaviour {
 	void Update () {
 		switch (state)
         {
-            case MoveState.hover:
+            case MoveState.caught:
                 //don't move at all, just bob up and down/left and right
                 break;
 
@@ -320,7 +320,7 @@ public class NodeMovement : MonoBehaviour {
     {
         switch (state)
         {
-            case MoveState.hover:
+            case MoveState.caught:
                 //don't move at all, just bob up and down/left and right
                 break;
 
