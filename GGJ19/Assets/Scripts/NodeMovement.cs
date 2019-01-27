@@ -40,6 +40,8 @@ public class NodeMovement : MonoBehaviour {
 
     private List<Dictionary<Vector3, bool>> wobbleVectors;
 
+    private GameObject pickedUpFood = null;
+
 
     void Start () {
 		if (nodesParent != null)
@@ -294,6 +296,11 @@ public class NodeMovement : MonoBehaviour {
                 break;
         }
 
+        if (pickedUpFood != null)
+        {
+            pickedUpFood.transform.position = transform.position + new Vector3(5.0f, -2.5f, 0.0f);
+        }
+
         prevState = state;
 	}
 
@@ -365,7 +372,15 @@ public class NodeMovement : MonoBehaviour {
                         setState(MoveState.toSpawn);
 
                         //reached food, pick it up
-                        //TODO: hook into food picking up and change state
+
+                        Debug.Log("finding food component");
+
+                        if (currentTarget.GetComponent<Food>() != null)
+                        {
+                            Debug.Log("food component found");
+                            currentTarget.GetComponent<Food>().PickUp();
+                            pickedUpFood = currentTarget.gameObject;
+                        }
                     }
                     else if (stateRef == MoveState.toSpawn)
                     {
@@ -373,6 +388,15 @@ public class NodeMovement : MonoBehaviour {
                     }
                 }
             }
+        }
+    }
+
+    public void dropFood()
+    {
+        if (pickedUpFood != null)
+        {
+            pickedUpFood.GetComponent<Food>().SetToStartLocation();
+            pickedUpFood = null;
         }
     }
 }

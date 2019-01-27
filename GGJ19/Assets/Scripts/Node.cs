@@ -53,6 +53,8 @@ public class Node : MonoBehaviour {
                 if (SpawnStartDelay <= 0.0f)
                 {
                     SpawnStartDelay = 0.0f;
+
+                    TryToSpawnFly();
                 }
             }
             else
