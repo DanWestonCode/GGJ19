@@ -92,28 +92,32 @@ public class Spider : MonoBehaviour {
 
     public Animator animator;
 
+    private enum State {
+        Idle, 
+        Walking, 
+        Shooting, 
+        Flying
+    };
+
+    State state;
+
     private void Awake() {
         Debug.Assert(reticle != null);
         Debug.Assert(web!= null);
         Debug.Assert(animator != null);
         
-
-
         raycastMask = LayerMask.GetMask("Floor");
         raycastMask |= LayerMask.GetMask("Fly");
+
+        state = State.Idle;
     }
 
     void Update() {
         Target();
         Shoot();
         Move();
-    }    
-    
-    void OnTriggerEnter2D(Collider2D other) 
-    {
-        Debug.Log("Please drop fly and set to AtTable state");
-
     }
+
     private void Move() {
         Vector2 dir = Vector2.zero;
 
@@ -125,9 +129,6 @@ public class Spider : MonoBehaviour {
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x >= (this.currentPlatform.end.position.x) + (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                     dir = Vector2.zero;
                 }
-                else {
-                    animator.SetTrigger("Walk");
-                }
             }
 
             if (Input.GetKey(KeyCode.A) && (currentOrientation.x <= -1.0f || currentOrientation.x >= 1.0f)) {
@@ -135,9 +136,6 @@ public class Spider : MonoBehaviour {
 
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).x <= this.currentPlatform.start.position.x - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.x * .5f)) {
                     dir = Vector2.zero;
-                }
-                else {
-                    animator.SetTrigger("Walk");
                 }
             }
 
@@ -147,9 +145,6 @@ public class Spider : MonoBehaviour {
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y >= this.currentPlatform.end.position.y - (this.currentPlatform.end.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
                 }
-                else {
-                    animator.SetTrigger("Walk");
-                }
             }
 
             if (Input.GetKey(KeyCode.S) && (currentOrientation.y >= 1.0f || currentOrientation.y <= -1.0f)) {
@@ -157,14 +152,17 @@ public class Spider : MonoBehaviour {
 
                 if ((this.transform.position + (Vector3)dir * speed * Time.deltaTime).y <= this.currentPlatform.start.position.y + (this.currentPlatform.start.GetComponent<SpriteRenderer>().bounds.size.y * .5f)) {
                     dir = Vector2.zero;
-                } else {
-                    animator.SetTrigger("Walk");
-                }
+                } 
             }
         }
 
-        if (dir == Vector2.zero) {
+        if (dir == Vector2.zero && currentZip == null) {
             animator.SetTrigger("Idle");
+            state = State.Idle;
+        }
+        else {
+            animator.SetTrigger("Walk");
+            state = State.Walking;
         }
 
 
@@ -192,8 +190,10 @@ public class Spider : MonoBehaviour {
     private void Shoot() {
         // left click
         if (Input.GetMouseButtonDown(0) && currentZip == null) {
+            state = State.Shooting;
+
             animator.SetTrigger("Fire");
-                               
+                                
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, raycastMask);
 
             web.startColor = Color.red;
@@ -252,21 +252,17 @@ public class Spider : MonoBehaviour {
         }
     }
 
-    private IEnumerator WaitForFireFinish (Animation animation) {
-        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-        do {
-            state = animator.GetCurrentAnimatorStateInfo(0);
-            yield return null;
-        } while (animation.isPlaying && state.nameHash == Animator.StringToHash("Base Layer.Fire"));
-    }
-
     IEnumerator IZip(Vector2 target) {
         bool loop = true;
+        animator.SetTrigger("Fly");
 
         while (loop) {
+            state = State.Flying;
+
             transform.position = Vector3.MoveTowards(transform.position, target, zipSpeed * Time.deltaTime);
             web.SetPosition(0, this.transform.position);
             web.SetPosition(1, target);
+
 
             if ((Vector2.Distance(this.transform.position, target) > 0.25f)) {
                 yield return null;
