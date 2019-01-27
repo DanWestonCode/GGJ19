@@ -207,6 +207,14 @@ public class NodeMovement : MonoBehaviour {
         Node closestNode = null;
         for (int i = 0; i < consideredList.Count; i++)
         {
+            if (consideredList[i].GetComponent<Food>())
+            {
+                if (consideredList[i].GetComponent<Food>().PickUpState != Food.PickUpStates.Static)
+                {
+                    continue;
+                }
+            }
+
             if (closestNode == null)
             {
                 closestNode = consideredList[i];
@@ -239,6 +247,15 @@ public class NodeMovement : MonoBehaviour {
 
             case MoveState.toFood:
                 //make sure the food has not been picked up
+                if (currentTarget.GetComponent<Food>())
+                {
+                    if (currentTarget.GetComponent<Food>().PickUpState != Food.PickUpStates.Static)
+                    {
+                        currentTarget = null;
+                        currentPath = null;
+                    }
+                }
+
                 if (currentTarget == null)
                 {
                     this.targetClosest(Node.NodeType.food);
