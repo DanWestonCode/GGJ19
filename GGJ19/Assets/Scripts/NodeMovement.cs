@@ -399,6 +399,11 @@ public class NodeMovement : MonoBehaviour {
                     else if (stateRef == MoveState.toSpawn)
                     {
                         //if reached spawn
+                        //if carrying food
+                        if (pickedUpFood != null)
+                        {
+                            pickedUpFood.GetComponent<Food>().PickUpState = Food.PickUpStates.Stolen;
+                        }
 
                         setState(MoveState.none);
                     }
