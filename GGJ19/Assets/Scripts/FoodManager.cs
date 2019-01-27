@@ -19,7 +19,7 @@ public class FoodManager : MonoBehaviour {
 	public Sprite[] FoodSprites;
 	public bool ShowFoodSpawnAreasInGame;
 	void Start () {
-		CreateStartingFood();		
+		//CreateStartingFood();		
 	}
 	void Update () 
 	{
