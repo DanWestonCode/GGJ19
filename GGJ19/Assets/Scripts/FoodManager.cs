@@ -16,7 +16,7 @@ public class FoodManager : MonoBehaviour {
 
 	public GameObject[] FoodSpawnAreas;
 	public Sprite[] FoodSprites;
-
+	public bool ShowFoodSpawnAreasInGame;
 	void Start () {
 		CreateStartingFood();		
 	}
@@ -36,18 +36,23 @@ public class FoodManager : MonoBehaviour {
 			float minXpos = sr.bounds.min.x;
 			float minYpos = sr.bounds.min.y;
 			float randomXpos = Random.Range(minXpos,maxXpos);
-			float randomYpos = maxYpos;	
+			float randomYpos = minYpos;	
 			Vector2 pos = new Vector2(randomXpos,randomYpos);
 			// Create Food Object
 			GameObject newGameObject = Instantiate(FoodPrefab,pos,Quaternion.identity);
 			newGameObject.GetComponent<SpriteRenderer>().sprite = SelectFoodSprite();
+			Vector3 currnetPostion = newGameObject.transform.position;
+			newGameObject.transform.position = new Vector3(currnetPostion.x, currnetPostion.y + (newGameObject.GetComponent<SpriteRenderer>().bounds.size.x)/2, currnetPostion.z);
 			newGameObject.name = ("Food " + i);
 			//Debug.Log("Food Size: " + newGameObject.GetComponent<SpriteRenderer>().bounds.size.x);
 			FoodObjects.Add(newGameObject);
 		}
-		foreach (GameObject Areas in FoodSpawnAreas)
+		if(ShowFoodSpawnAreasInGame)
 		{
-			//Areas.GetComponent<SpriteRenderer>().enabled = false;
+			foreach (GameObject Areas in FoodSpawnAreas)
+			{
+				Areas.GetComponent<SpriteRenderer>().enabled = false;
+			}
 		}
 	}
 
