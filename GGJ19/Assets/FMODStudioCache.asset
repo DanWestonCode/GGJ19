@@ -29,11 +29,12 @@ MonoBehaviour:
   - {fileID: 114055951153050660}
   - {fileID: 114063639212017554}
   - {fileID: 114302090535410144}
+  - {fileID: 114464810672489622}
   MasterBanks:
   - {fileID: 114966886895074826}
   StringsBanks:
   - {fileID: 114723545981233676}
-  stringsBankWriteTime: 636842023940000000
+  stringsBankWriteTime: 636842062430000000
   cacheVersion: 3
 --- !u!114 &114012315599837804
 MonoBehaviour:
@@ -71,7 +72,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 114101118546075124}
+  - {fileID: 114376635065520768}
   MinDistance: 0
   MaxDistance: 0
   Length: 7880
@@ -186,7 +187,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114724602211600156}
+  - {fileID: 114916899208370678}
   MinDistance: 0
   MaxDistance: 0
   Length: 2833
@@ -318,6 +319,22 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114134595068028244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114134980009403102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +403,22 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 558
+--- !u!114 &114148086529232608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114150319759785628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,12 +494,28 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 114598613773506024}
-  - {fileID: 114994484416415814}
-  - {fileID: 114111711242223420}
+  - {fileID: 114340083267185642}
+  - {fileID: 114196679242593126}
+  - {fileID: 114134595068028244}
   MinDistance: 0
   MaxDistance: 0
   Length: 142285
+--- !u!114 &114196679242593126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Ending
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114201697441938608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,7 +576,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114396426126188880}
+  - {fileID: 114148086529232608}
   MinDistance: 0
   MaxDistance: 0
   Length: 925
@@ -600,6 +649,22 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 0
+--- !u!114 &114340083267185642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intro
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114341815448967524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,6 +698,22 @@ MonoBehaviour:
   Max: 1
   Default: 0
 --- !u!114 &114375273995141804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114376635065520768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -696,6 +777,22 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114432285982684438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intro
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114454238476871176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,6 +848,30 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114464810672489622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Music_Intro
+  guid: 665122e24cfb9e4ab083216480773008
+  Banks:
+  - {fileID: 114966886895074826}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114432285982684438}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 19571
 --- !u!114 &114484589483684736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,6 +911,22 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 1777
+--- !u!114 &114498059761085340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114513669484641702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,7 +1042,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114126080720216980}
+  - {fileID: 114498059761085340}
   MinDistance: 0
   MaxDistance: 0
   Length: 1839
@@ -1094,11 +1231,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: /Volumes/Samples SSD/GAME JAM/FMOD PROJECT/Adjective Animal/Build/Desktop/Master
     Bank.strings.bank
-  lastModified: 636842023940000000
+  lastModified: 636842062430000000
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 1270
+    Value: 1318
   Exists: 1
 --- !u!114 &114724602211600156
 MonoBehaviour:
@@ -1136,7 +1273,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114116114835208478}
+  - {fileID: 114877973131643244}
   MinDistance: 0
   MaxDistance: 0
   Length: 513
@@ -1188,7 +1325,39 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114877973131643244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114893282429177672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114916899208370678
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1282,11 +1451,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: /Volumes/Samples SSD/GAME JAM/FMOD PROJECT/Adjective Animal/Build/Desktop/Master
     Bank.bank
-  lastModified: 636842023940000000
+  lastModified: 636842062430000000
   LoadResult: 0
   FileSizes:
   - Name: 
-    Value: 2837856
+    Value: 2839424
   Exists: 1
 --- !u!114 &114994484416415814
 MonoBehaviour:
