@@ -101,6 +101,8 @@ public class NodeMovement : MonoBehaviour {
                 break;
 
             case MoveState.toFood:
+                // START AUDIO LOOP HERE!
+                GetComponent<FMODUnity.StudioEventEmitter>().Play();
                 //find and target the closest food
                 targetClosest(Node.NodeType.food);
 
@@ -404,6 +406,8 @@ public class NodeMovement : MonoBehaviour {
                         {
                             pickedUpFood.GetComponent<Food>().PickUpState = Food.PickUpStates.Stolen;
                         }
+                        // END AUDIO LOOP HERE!
+                        GetComponent<FMODUnity.StudioEventEmitter>().Stop();
 
                         setState(MoveState.none);
                     }
