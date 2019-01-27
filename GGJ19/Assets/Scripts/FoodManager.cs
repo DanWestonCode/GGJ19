@@ -10,6 +10,7 @@ public class FoodManager : MonoBehaviour {
 	public int StartQuantity;
 	public GameObject FoodPrefab;
 	public GameObject Home;
+	public GameObject gameStateManager;
 	public List<GameObject> FoodObjects; 
 	public delegate void PickUpFoodEvent(GameObject food);
 	public static event PickUpFoodEvent OnPickUpFood;
@@ -20,8 +21,27 @@ public class FoodManager : MonoBehaviour {
 	void Start () {
 		CreateStartingFood();		
 	}
-	void Update () {
+	void Update () 
+	{
+		CheckFoodStolenCount();
 	}
+
+	void CheckFoodStolenCount()
+	{
+		int StolenCount = 0;
+		foreach (GameObject food in FoodObjects)
+		{
+			if(food.GetComponent<Food>().PickUpState == Food.PickUpStates.Stolen)
+			{
+				StolenCount ++;
+			}
+		}
+		if(StolenCount >= FoodObjects.Count)
+		{
+			gameStateManager.GetComponent<GameStateController>().SetGameStateToOver();
+		}
+	}
+
 	void CreateStartingFood()
 	{
 		FoodSpawnAreas = GameObject.FindGameObjectsWithTag("FoodSpawnArea");

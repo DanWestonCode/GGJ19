@@ -6,7 +6,7 @@ using UnityEngine;
 public class Food : MonoBehaviour {
 	public GameObject foodManagerGameObject;
 	public FoodManager foodManagerComponent;
-	public enum PickUpStates {gotPickedUp, isPickedUp, gotDropped, Static};
+	public enum PickUpStates {gotPickedUp, isPickedUp, gotDropped, Static,Stolen};
 	public PickUpStates PickUpState;
 
 	void Start () {
@@ -18,9 +18,7 @@ public class Food : MonoBehaviour {
 	}
 
 	void Update () 
-	{
-		
-
+	{		
 		if(PickUpState == PickUpStates.gotPickedUp)
 		{
 			PickUp();

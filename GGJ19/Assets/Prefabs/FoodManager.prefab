@@ -43,9 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a0afb9e81ee174b850f13aaa8f356b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartQuantity: 10
+  StartQuantity: 2
   FoodPrefab: {fileID: 1895219485354140, guid: 178fb621abeaa8948bee820839f7b7c2, type: 3}
   Home: {fileID: 0}
+  gameStateManager: {fileID: 0}
   FoodObjects: []
   FoodSpawnAreas: []
   FoodSprites:
