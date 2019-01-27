@@ -26,11 +26,14 @@ MonoBehaviour:
   - {fileID: 114234828537706228}
   - {fileID: 114804147879217596}
   - {fileID: 114497552704751806}
+  - {fileID: 114055951153050660}
+  - {fileID: 114063639212017554}
+  - {fileID: 114302090535410144}
   MasterBanks:
   - {fileID: 114966886895074826}
   StringsBanks:
   - {fileID: 114723545981233676}
-  stringsBankWriteTime: 636841999490000000
+  stringsBankWriteTime: 636842023940000000
   cacheVersion: 3
 --- !u!114 &114012315599837804
 MonoBehaviour:
@@ -48,6 +51,30 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114055951153050660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Flappy Fly/Fly_Buzz
+  guid: 2a59911efcb99542a3c28720c3f4eb1a
+  Banks:
+  - {fileID: 114966886895074826}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 114101118546075124}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 7880
 --- !u!114 &114063528398908924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +91,29 @@ MonoBehaviour:
   Min: 0
   Max: 1
   Default: 0
+--- !u!114 &114063639212017554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Spoder/Spider_FT
+  guid: 5163375f1a2f994980089e5e84e0b7bb
+  Banks:
+  - {fileID: 114966886895074826}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 500
 --- !u!114 &114076913843568790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,11 +186,59 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114662139528553750}
+  - {fileID: 114724602211600156}
   MinDistance: 0
   MaxDistance: 0
   Length: 2833
+--- !u!114 &114101118546075124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114111711242223420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114114697137915696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114116114835208478
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,6 +267,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Intro
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114126080720216980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
   Min: 0
   Max: 1
   Default: 0
@@ -271,7 +385,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 355
+  Length: 558
 --- !u!114 &114150319759785628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,12 +461,12 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: 114533276989137608}
-  - {fileID: 114645023072273740}
-  - {fileID: 114098371234233562}
+  - {fileID: 114598613773506024}
+  - {fileID: 114994484416415814}
+  - {fileID: 114111711242223420}
   MinDistance: 0
   MaxDistance: 0
-  Length: 140571
+  Length: 142285
 --- !u!114 &114201697441938608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +527,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114170351107072484}
+  - {fileID: 114396426126188880}
   MinDistance: 0
   MaxDistance: 0
   Length: 925
@@ -439,7 +553,30 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 846
+  Length: 1534
+--- !u!114 &114302090535410144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Path: event:/Flappy Fly/Fly_Ending
+  guid: b049d9f343f3dc4e8452b21b53ed7207
+  Banks:
+  - {fileID: 114966886895074826}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 14303
 --- !u!114 &114339163822454734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,6 +633,22 @@ MonoBehaviour:
   Max: 1
   Default: 0
 --- !u!114 &114375273995141804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
+--- !u!114 &114396426126188880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -731,7 +884,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 0
   MaxDistance: 0
-  Length: 340
+  Length: 339
 --- !u!114 &114581354001142632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,7 +905,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114012315599837804}
+  - {fileID: 114126080720216980}
   MinDistance: 0
   MaxDistance: 0
   Length: 1839
@@ -776,6 +929,22 @@ MonoBehaviour:
   - Name: Desktop
     Value: 13116
   Exists: 1
+--- !u!114 &114598613773506024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Intro
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114603524470674420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,12 +1094,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: /Volumes/Samples SSD/GAME JAM/FMOD PROJECT/Adjective Animal/Build/Desktop/Master
     Bank.strings.bank
-  lastModified: 636841999490000000
+  lastModified: 636842023940000000
   LoadResult: 0
   FileSizes:
   - Name: 
     Value: 1270
   Exists: 1
+--- !u!114 &114724602211600156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Female_Fly
+  Min: 0
+  Max: 1
+  Default: 0
 --- !u!114 &114804147879217596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -951,7 +1136,7 @@ MonoBehaviour:
   Is3D: 0
   IsOneShot: 1
   Parameters:
-  - {fileID: 114826322222891210}
+  - {fileID: 114116114835208478}
   MinDistance: 0
   MaxDistance: 0
   Length: 513
@@ -1097,9 +1282,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: /Volumes/Samples SSD/GAME JAM/FMOD PROJECT/Adjective Animal/Build/Desktop/Master
     Bank.bank
-  lastModified: 636841999490000000
+  lastModified: 636842023940000000
   LoadResult: 0
   FileSizes:
   - Name: 
     Value: 2837856
   Exists: 1
+--- !u!114 &114994484416415814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Ending
+  Min: 0
+  Max: 1
+  Default: 0
