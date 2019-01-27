@@ -39,6 +39,8 @@ public class FoodManager : MonoBehaviour {
 		if(StolenCount >= FoodObjects.Count)
 		{
 			gameStateController.GetComponent<GameStateController>().SetGameStateToOver();
+			gameStateController.GetComponent<GameStateController>().SetEndStateToBad();
+
 		}
 	}
 
