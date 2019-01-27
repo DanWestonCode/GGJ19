@@ -47,12 +47,14 @@ public class Node : MonoBehaviour {
     {
         if (CountForSpawn)
         {
-            if (SpawnStartDelay >= 0.0f)
+            if (SpawnStartDelay > 0.0f)
             {
                 SpawnStartDelay -= Time.deltaTime;
                 if (SpawnStartDelay <= 0.0f)
                 {
                     SpawnStartDelay = 0.0f;
+
+                    TryToSpawnFly();
                 }
             }
             else
@@ -77,6 +79,7 @@ public class Node : MonoBehaviour {
 
     private void TryToSpawnFly()
     {
+        Debug.Log("spawn fly plz (Node.cs)");
         //go through the list of flies, if one is not spawned, spawn it here
         FlyManager.instance.TryToSpawnfly(this);
     }

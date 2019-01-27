@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NodeMovement : MonoBehaviour {
 
-    public enum MoveState { none, hover, toFood, toSpawn};
+    public enum MoveState { none, caught, toFood, toSpawn};
 
     [SerializeField]
     private GameObject nodesParent;
@@ -39,6 +39,8 @@ public class NodeMovement : MonoBehaviour {
     private Vector3 postDirection;
 
     private List<Dictionary<Vector3, bool>> wobbleVectors;
+
+    private GameObject pickedUpFood = null;
 
 
     void Start () {
@@ -94,8 +96,8 @@ public class NodeMovement : MonoBehaviour {
     {
         switch (state)
         {
-            case MoveState.hover:
-                //just hover
+            case MoveState.caught:
+                //just caught
                 break;
 
             case MoveState.toFood:
@@ -245,7 +247,7 @@ public class NodeMovement : MonoBehaviour {
 	void Update () {
 		switch (state)
         {
-            case MoveState.hover:
+            case MoveState.caught:
                 //don't move at all, just bob up and down/left and right
                 break;
 
@@ -294,6 +296,11 @@ public class NodeMovement : MonoBehaviour {
                 break;
         }
 
+        if (pickedUpFood != null)
+        {
+            pickedUpFood.transform.position = transform.position + new Vector3(5.0f, -2.5f, 0.0f);
+        }
+
         prevState = state;
 	}
 
@@ -312,7 +319,7 @@ public class NodeMovement : MonoBehaviour {
             direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
             Debug.Log(direction);
 
-            gameObject.transform.position += (direction * Time.deltaTime * 10);
+            gameObject.transform.position += (direction * Time.deltaTime);
         }
     }
 
@@ -320,7 +327,7 @@ public class NodeMovement : MonoBehaviour {
     {
         switch (state)
         {
-            case MoveState.hover:
+            case MoveState.caught:
                 //don't move at all, just bob up and down/left and right
                 break;
 
@@ -365,7 +372,15 @@ public class NodeMovement : MonoBehaviour {
                         setState(MoveState.toSpawn);
 
                         //reached food, pick it up
-                        //TODO: hook into food picking up and change state
+
+                        Debug.Log("finding food component");
+
+                        if (currentTarget.GetComponent<Food>() != null)
+                        {
+                            Debug.Log("food component found");
+                            currentTarget.GetComponent<Food>().PickUp();
+                            pickedUpFood = currentTarget.gameObject;
+                        }
                     }
                     else if (stateRef == MoveState.toSpawn)
                     {
@@ -373,6 +388,15 @@ public class NodeMovement : MonoBehaviour {
                     }
                 }
             }
+        }
+    }
+
+    public void dropFood()
+    {
+        if (pickedUpFood != null)
+        {
+            pickedUpFood.GetComponent<Food>().SetToStartLocation();
+            pickedUpFood = null;
         }
     }
 }

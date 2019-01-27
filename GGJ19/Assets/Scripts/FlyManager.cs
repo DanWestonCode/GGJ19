@@ -26,12 +26,14 @@ public class FlyManager : MonoBehaviour
 
     public void TryToSpawnfly(Node spawnNode)
     {
+        Debug.Log("spawn fly plz (FlyManager.cs)");
+
         GameObject flyPicked = null;
         //find a fly that is not active
         for (int i = 0; i < AllFlys.Length; i++)
         {
             NodeMovement.MoveState flyState = AllFlys[i].GetComponent<NodeMovement>().getState();
-            if (flyState == NodeMovement.MoveState.none || flyState == NodeMovement.MoveState.hover)
+            if (flyState == NodeMovement.MoveState.none)
             {
                 //try to spawn the fly
                 flyPicked = AllFlys[i];
