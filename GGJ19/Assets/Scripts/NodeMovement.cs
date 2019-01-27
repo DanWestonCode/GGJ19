@@ -337,7 +337,7 @@ public class NodeMovement : MonoBehaviour {
             //move towards the top node of the current path
             direction = Vector3.Normalize(currentPath[0].gameObject.transform.position - gameObject.transform.position);
 
-            gameObject.transform.position += (direction * Time.deltaTime);
+            gameObject.transform.position += (direction * Time.deltaTime * 2);
         }
     }
 
@@ -423,6 +423,7 @@ public class NodeMovement : MonoBehaviour {
         if (pickedUpFood != null)
         {
             pickedUpFood.GetComponent<Food>().SetToStartLocation();
+            pickedUpFood.GetComponent<Food>().PickUpState = Food.PickUpStates.Static;
             pickedUpFood = null;
         }
     }
