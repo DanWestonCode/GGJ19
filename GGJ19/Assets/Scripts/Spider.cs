@@ -65,6 +65,11 @@ public class Spider : MonoBehaviour {
     public Coroutine currentZip;
 
     /// <summary>
+    /// The Current reel routine
+    /// </summary>
+    public Coroutine currentReel;
+
+    /// <summary>
     /// The platform which the spider is currently on
     /// </summary>
     private WebPlatform currentPlatform;
@@ -82,16 +87,28 @@ public class Spider : MonoBehaviour {
     /// <summary>
     /// The current fly on the spiders back
     /// </summary>
-    private Fly victim;
+    public Fly victim;
 
     /// <summary>
     /// Setup in Awake, the layers which the spiders web will consider.
     /// </summary>
     private LayerMask raycastMask;
 
+    /// <summary>
+    /// Reference to Animator on spider
+    /// </summary>
     public Animator animator;
 
+    /// <summary>
+    /// SpriteRenderer for spider
+    /// </summary>
     public SpriteRenderer spriteRenderer;
+
+    /// <summary>
+    /// Reference transform where 
+    /// flies will be carried
+    /// </summary>
+    public Transform spiderBackpack;
 
     private enum State {
         Idle, 
@@ -200,11 +217,14 @@ public class Spider : MonoBehaviour {
             animator.SetTrigger("Idle");
             state = State.Idle;
         }
-        else {
+        else if (dir != Vector2.zero) {
             animator.SetTrigger("Walk");
             state = State.Walking;
         }
 
+        if (victim != null && currentReel == null) {
+            victim.transform.position = spiderBackpack.transform.position;
+        }
 
         this.transform.position += (Vector3)dir * speed * Time.deltaTime;       
     }
@@ -220,8 +240,8 @@ public class Spider : MonoBehaviour {
         }
 
         aimDirection = Quaternion.Euler(0, 0, aimAngle * Mathf.Rad2Deg) * Vector2.right;
-        float x = transform.position.x + .5f * Mathf.Cos(aimAngle);
-        float y = transform.position.y + .5f * Mathf.Sin(aimAngle);
+        float x = transform.position.x + .75f * Mathf.Cos(aimAngle);
+        float y = transform.position.y + .75f * Mathf.Sin(aimAngle);
 
         var crossHairPosition = new Vector3(x, y, 0);
         reticle.transform.position = crossHairPosition;
@@ -233,11 +253,11 @@ public class Spider : MonoBehaviour {
             state = State.Shooting;
 
             animator.SetTrigger("Fire");
-                                
+
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, aimDirection, slingDist, raycastMask);
 
-            web.startColor = Color.white;
-            web.startColor = Color.white;
+            web.startColor = new Color(241 / 255f, 241 / 255f, 215 / 255f);
+            web.endColor = new Color(241 / 255f, 241 / 255f, 215 / 255f);
 
             web.SetWidth(0.05f, 0.05f);
             web.positionCount = 2;
@@ -258,6 +278,7 @@ public class Spider : MonoBehaviour {
                             Vector2 target = currentWeb.end;
                             currentOrientation = currentWeb.target.Direction();
                             //store the current coroutine so we don't start another until it's up!.. IEnumerator kinda sucks, but game jam!
+                            Debug.Log("SETTING CURRENT ZIP");
                             currentZip = StartCoroutine(IZip(target));
 
                             float dot = Vector2.Dot(hit[i].normal, Vector2.up);
@@ -294,21 +315,29 @@ public class Spider : MonoBehaviour {
                                     rotState = RotState.normalVertical;
                                     this.transform.rotation = Quaternion.Euler(this.transform.rotation.x, this.transform.rotation.y, 90);
                                 }
-                            }                 
+                            }
+                            break;
                         }
                     }
                     // Fly has caught spider
-                    else if (hit[i].transform.GetComponent<Fly>()) {
+                    else if (hit[i].transform.GetComponent<Fly>() && hit[i].transform.GetComponent<Fly>() != victim) {
                         Debug.Log("Hit Fly");
 
                         hitTrigger = true;
 
                         Fly nextFly = hit[i].transform.GetComponent<Fly>();
                         /// i.e spider is not carrying anyone
-                        if (victim == null) {
+                        if (victim == null) {                  
+
                             victim = nextFly;
-                            currentZip = StartCoroutine(IReelInVictim());
+                            victim.Caught();
+
+                            currentReel = StartCoroutine(IReelInVictim());
+                        } else {
+                            nextFly.Kill();
                         }
+
+                        break;
                     }
                 }
             }
@@ -321,15 +350,14 @@ public class Spider : MonoBehaviour {
             }       
 
         } else {
-            if (currentZip == null) {
+            if (currentZip == null && currentReel == null) {
                 // stop slinging that web        
                 web.positionCount = 0;
             }
         }
     }
 
-
-
+    
     IEnumerator IZip(Vector2 target) {
         bool loop = true;
         animator.SetTrigger("Fly");
@@ -341,7 +369,6 @@ public class Spider : MonoBehaviour {
 
             web.SetPosition(0, this.transform.position);
             web.SetPosition(1, target);
-
 
             if ((Vector2.Distance(this.transform.position, target) > 0.25f)) {
                 yield return null;
@@ -355,6 +382,7 @@ public class Spider : MonoBehaviour {
 
                 loop = false;
                 currentWeb = null;
+                Debug.Log("Current Zip is Null now");
                 currentZip = null;
 
                 yield return true;
@@ -369,21 +397,21 @@ public class Spider : MonoBehaviour {
             bool loop = true;   
 
             while (loop) {
-                victim.transform.position = Vector3.MoveTowards(victim.transform.position, this.transform.position, zipSpeed * Time.deltaTime);
-                web.SetPosition(0, this.transform.position);
+                victim.transform.position = Vector3.MoveTowards(victim.transform.position, spiderBackpack.position, zipSpeed * Time.deltaTime);
+                web.SetPosition(0, spiderBackpack.position);
                 web.SetPosition(1, victim.transform.position);
 
-                if ((Vector2.Distance(this.transform.position, victim.transform.position) > 0.25f)) {
+                if ((Vector2.Distance(spiderBackpack.position, victim.transform.position) > 0.25f)) {
                     yield return null;
                 } else {
                     loop = false;
-                    currentZip = null;
+                    currentReel = null;
                 }
             }
 
         } else {
             Debug.LogWarning("IReelInVictim called with now victim to reel!");
-            currentZip = null;
+            currentReel = null;
         }
     }
 }

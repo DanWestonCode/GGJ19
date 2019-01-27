@@ -11,18 +11,30 @@ public class Fly : MonoBehaviour {
 	public enum FlyStates {Free, AtTable, Caught};
 	public FlyStates FlyState;
 
+	public int Gender;
+
+
 	// Use this for initialization
 	void Start () 
 	{
 		FoodManager.OnPickUpFood += SomeFoodPickedUp;
 		FlyState = FlyStates.Free;
+		Gender = Random.Range(0,1);
 	}
     
     public void Caught () {
-		
+        GetComponent<NodeMovement>().setState(NodeMovement.MoveState.none);
+        GetComponent<NodeMovement>().dropFood();
+
+        FlyState = FlyStates.Caught;
     }
 
-	public void AtTable()
+    public void Kill () {
+        this.transform.position = new Vector2(2000, 2000);
+        GetComponent<NodeMovement>().dropFood();
+    }
+
+    public void AtTable()
 	{
 		FlyState = FlyStates.AtTable;
 	}
