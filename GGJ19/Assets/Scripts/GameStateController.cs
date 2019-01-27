@@ -28,4 +28,12 @@ public class GameStateController : MonoBehaviour
     {
         GameState = GameStates.Over;
     }
+    public void SetEndStateToGood()
+    {
+        EndState = EndGameStates.Good;
+    }
+    public void SetEndStateToBad()
+    {
+        EndState = EndGameStates.Bad;
+    }
 }
