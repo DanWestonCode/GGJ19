@@ -9,6 +9,8 @@ public class GameStateController : MonoBehaviour
     public enum GameStates {Pending, Running, Over};
 	public GameStates GameState;
 
+    public List<Node> SpawnNodes;
+
     void Start()
     {
         EndState = EndGameStates.Pending;
@@ -19,8 +21,39 @@ public class GameStateController : MonoBehaviour
     {
         if(Input.GetKeyDown("space") && GameState == GameStates.Pending)
         {
-            GameState = GameStates.Running;
-            Debug.Log("Game State set to Running!");
+            SetGameStateToRunning();
+        }
+    }
+
+    public void SetGameStateToRunning()
+    {
+        GameState = GameStates.Running;
+        Debug.Log("Game State set to Running!");
+
+        StartSpawntimers();
+
+    }
+
+    void StartSpawntimers()
+    {
+        if (SpawnNodes.Count != 0)
+        {
+            for (int i = 0; i < SpawnNodes.Count; i++)
+            {
+                float delay = i * 2;
+                SpawnNodes[i].StartSpawning(delay);
+            }
+        }
+    }
+
+    void StopSpawntimers()
+    {
+        if (SpawnNodes.Count != 0)
+        {
+            for (int i = 0; i < SpawnNodes.Count; i++)
+            {
+                SpawnNodes[i].StopSpawning();
+            }
         }
     }
 
