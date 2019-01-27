@@ -8,6 +8,8 @@ TagManager:
   - Fly
   - Spider
   - FlyManager
+  - end_win
+  - end_lose
   layers:
   - Default
   - TransparentFX
