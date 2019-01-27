@@ -11,11 +11,15 @@ public class Fly : MonoBehaviour {
 	public enum FlyStates {Free, AtTable, Caught};
 	public FlyStates FlyState;
 
+	public int Gender;
+
+
 	// Use this for initialization
 	void Start () 
 	{
 		FoodManager.OnPickUpFood += SomeFoodPickedUp;
 		FlyState = FlyStates.Free;
+		Gender = Random.Range(0,1);
 	}
     
     public void Caught () {
