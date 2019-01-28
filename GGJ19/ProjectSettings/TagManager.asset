@@ -11,6 +11,8 @@ TagManager:
   - end_win
   - end_lose
   - Food
+  - FMODEmitter
+  - FoodManager
   layers:
   - Default
   - TransparentFX

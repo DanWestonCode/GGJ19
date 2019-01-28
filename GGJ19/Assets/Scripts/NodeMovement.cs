@@ -385,13 +385,9 @@ public class NodeMovement : MonoBehaviour {
                     if (stateRef == MoveState.toFood)
                     {
                         //reached food, pick it up
-                        Debug.Log("finding food component");
-
-                        Debug.Log(currentTarget.gameObject.tag);
 
                         if (currentTarget.gameObject.GetComponent<Food>())
                         {
-                            Debug.Log("food component found");
                             currentTarget.gameObject.GetComponent<Food>().PickUp();
                             pickedUpFood = currentTarget.gameObject;
                         }

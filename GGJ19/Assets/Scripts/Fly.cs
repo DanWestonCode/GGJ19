@@ -20,6 +20,7 @@ public class Fly : MonoBehaviour {
 		FoodManager.OnPickUpFood += SomeFoodPickedUp;
 		FlyState = FlyStates.Free;
 		Gender = Random.Range(0,1);
+		Gender = 0;
 	}
     
     public void Caught () {
@@ -45,6 +46,5 @@ public class Fly : MonoBehaviour {
 
     public static void SomeFoodPickedUp(GameObject food)
 	{
-		Debug.Log("Some food was pickup check if its is my food?");
 	}
 }
