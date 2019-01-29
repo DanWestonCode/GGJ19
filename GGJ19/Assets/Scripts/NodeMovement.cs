@@ -389,7 +389,12 @@ public class NodeMovement : MonoBehaviour {
                         if (currentTarget.gameObject.GetComponent<Food>())
                         {
                             currentTarget.gameObject.GetComponent<Food>().PickUp();
+
                             pickedUpFood = currentTarget.gameObject;
+                            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance("event:/Flappy Fly/Fly_Struggle");
+                            Debug.Log(flyObject.GetComponent<Fly>().Gender);
+                            instance.setParameterValue("Female_Fly",flyObject.GetComponent<Fly>().Gender);
+                            instance.start();
                         }
 
                         setState(MoveState.toSpawn);

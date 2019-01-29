@@ -343,7 +343,10 @@ public class Spider : MonoBehaviour {
                         hitTrigger = true;
 
                         Fly nextFly = hit[i].transform.GetComponent<Fly>();
-
+                        FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance("event:/Flappy Fly/Fly_Hit");
+                        Debug.Log(nextFly.Gender);
+                        instance.setParameterValue("Female_Fly",nextFly.Gender);
+                        instance.start();
                         /// i.e spider is not carrying anyone
                         if (victim == null) {                  
 
