@@ -102,6 +102,12 @@ public class NodeMovement : MonoBehaviour {
 
             case MoveState.toFood:
                 // START AUDIO LOOP HERE!
+                
+                if(flyObject != null)
+                {
+                    Debug.Log("Start Audio");
+                    GetComponent<FMODUnity.StudioEventEmitter>().SetParameter("Female_fly", flyObject.GetComponent<Fly>().Gender);
+                }
                 GetComponent<FMODUnity.StudioEventEmitter>().Play();
                 //find and target the closest food
                 targetClosest(Node.NodeType.food);
@@ -391,10 +397,13 @@ public class NodeMovement : MonoBehaviour {
                             currentTarget.gameObject.GetComponent<Food>().PickUp();
 
                             pickedUpFood = currentTarget.gameObject;
-                            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance("event:/Flappy Fly/Fly_Struggle");
-                            Debug.Log(flyObject.GetComponent<Fly>().Gender);
-                            instance.setParameterValue("Female_Fly",flyObject.GetComponent<Fly>().Gender);
-                            instance.start();
+                            if(flyObject != null)
+                            {
+                                FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance("event:/Flappy Fly/Fly_Struggle");
+                                Debug.Log(flyObject.GetComponent<Fly>().Gender);
+                                instance.setParameterValue("Female_Fly",flyObject.GetComponent<Fly>().Gender);
+                                instance.start();
+                            }
                         }
 
                         setState(MoveState.toSpawn);
