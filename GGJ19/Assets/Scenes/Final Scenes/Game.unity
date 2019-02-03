@@ -17317,6 +17317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flyManagerGameObject: {fileID: 0}
+  gsc: {fileID: 311762748}
 --- !u!114 &1746945581
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ public class FlyCounterText : MonoBehaviour
 {
     public GameObject flyManagerGameObject;
     FlyManager flyManager;
+    public GameStateController gsc;
+
     void Start()
     {
         flyManagerGameObject = GameObject.FindGameObjectWithTag("FlyManager");
@@ -19,10 +21,13 @@ public class FlyCounterText : MonoBehaviour
     {
         //Debug.Log(gameObject.GetComponent<Text>().text);
         //Debug.Log(flyManager.atTableFlyCount.ToString());
-        int count =  flyManager.atTableWinFlyCount - flyManager.atTableFlyCount;
-        if(gameObject.GetComponent<Text>().text != count.ToString())
+        if(gsc.GameState != GameStateController.GameStates.Over)
         {
-            gameObject.GetComponent<Text>().text = count.ToString();
+            int count =  flyManager.atTableWinFlyCount - flyManager.atTableFlyCount;
+            if(gameObject.GetComponent<Text>().text != count.ToString())
+            {
+                gameObject.GetComponent<Text>().text = count.ToString();
+            }
         }
     }
 }

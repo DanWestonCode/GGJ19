@@ -61,8 +61,7 @@ public class GameStateController : MonoBehaviour
         StopSpawntimers();
 
         GameState = GameStates.Over;
-
-        Camera.main.GetComponent<FMODUnity.StudioEventEmitter>().SetParameter("Ending", 1);
+        GameObject.FindGameObjectWithTag("FMODEmitter").GetComponent<FMODUnity.StudioEventEmitter>().SetParameter("Ending", 1);
 
     }
     public void SetEndStateToGood()
